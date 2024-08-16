@@ -59,6 +59,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>labymod</id>
+            <url>https://dist.labymod.net/api/v1/maven/release/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -66,6 +70,12 @@
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.20.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.labymod.serverapi</groupId>
+            <artifactId>server-bukkit</artifactId>
+            <version>1.0.2</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
