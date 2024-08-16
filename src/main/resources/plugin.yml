@@ -1,0 +1,6 @@
+name: LabyUtils
+version: '${project.version}'
+main: com.rappytv.labyutils.LabyUtilsPlugin
+api-version: '1.20'
+authors: [ RappyTV ]
+description: About A simple plugin to utilize LabyMod's plugin API without coding knowledge.
