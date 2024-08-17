@@ -1,0 +1,97 @@
+############################################################
+#                                                          #
+#                        LabyUtils                         #
+#                                                          #
+#    Simple plugin to manage LabyMod users your server!    #
+#                                                          #
+# Issues: https://github.com/RappyPlugins/LabyUtils/issues #
+#                                                          #
+############################################################
+
+banner:
+  # Set this to true if you want to enable the banner above the tablist
+  enabled: false
+  # The aspect ratio of the image must be 5:1 and the recommended resolution is 1280x256 pixels.
+  url: 'https://example.com/banner.png'
+
+# Requires Vault
+economy:
+  # Interval in seconds
+  updateInterval: 5
+  cash: false
+  bank: false
+
+flags:
+  # Set this to true if you want to enable country flags being displayed next to player names in the tablist
+  enabled: false
+
+subtitles:
+  # Set this to true if you want to display "subnametags" for players with specific permissions
+  # PlaceholderAPI is supported
+  enabled: false
+  subtitles:
+    owner:
+      # Supports placeholder API
+      text: '§4Server owner'
+      size: 0.8
+      permission: group.owner
+
+interactions:
+  enabled: false
+
+  bullets:
+    - title: Bullet point 1
+      # The permission they need to have on the server to see the bullet point. Leave out to disable
+      permission: someplugin.somepermission
+      # RUN_COMMAND - Executes the value as command
+      # CLIPBOARD - Copies the value to the clipboard.
+      # SUGGEST_COMMAND - Opens the chat and suggests the value
+      # OPEN_BROWSER - Opens the web browser with the value as URL
+      type: RUN_COMMAND
+      # The value can contain the following placeholders (addons may add custom placeholders):
+      # - {name} - Will be replaced with the player's name
+      # - {uuid} - Will be replaced with the player's unique id.
+      value: '/somecommand'
+    - title: Ban player
+      permission: someplugin.ban
+      type: RUN_COMMAND
+      value: '/ban {name}'
+    - title: Copy head url
+      type: OPEN_BROWSER
+      value: 'https://mc-heads.net/head/{uuid}'
+
+addons:
+  disabled:
+    # If the value is true all addons with the namespace being included in the addons array will be disabled
+    enabled: false
+    # The addons to disable
+    addons:
+      - someaddon
+      - someotheraddon
+  recommendations:
+    # If addon recommendations should be enabled
+    enabled: false
+    # "%s" is the list of required addons
+    kickMessage: |-
+      §c§lKICKED!
+      
+      §bReason: §7Missing required addons: %s
+    addons:
+      # If the value is true the addon is required, otherwise it's just a recommended addon
+      someaddon: true
+      someotheraddon: false
+
+permissions:
+  # Enable or disable specific permissions of the labymod or it's addons
+  enabled: false
+  permissions:
+    # The value on the right is if the player has the permission or not
+    chat_autotext: true
+
+rpc:
+  # Set to true if you want to enable Discord Rich presence
+  enabled: false
+
+  # PlaceholderAPI is supported
+  text: 'Playing %gamemode%'
+  showJoinTime: true
