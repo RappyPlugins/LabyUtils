@@ -20,8 +20,14 @@ public class EconomyBalanceUpdateListener implements Listener {
         LabyModPlayer player = event.getPlayer();
 
         switch (event.getBalanceType()) {
-            case CASH -> player.updateCashEconomy(economy -> economy.balance(event.getBalance()));
-            case BANK -> player.updateBankEconomy(economy -> economy.balance(event.getBalance()));
+            case CASH: {
+                player.updateCashEconomy(economy -> economy.balance(event.getBalance()));
+                break;
+            }
+            case BANK: {
+                player.updateBankEconomy(economy -> economy.balance(event.getBalance()));
+                break;
+            }
         }
     }
 }

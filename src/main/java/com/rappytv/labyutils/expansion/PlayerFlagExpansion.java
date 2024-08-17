@@ -38,14 +38,14 @@ public class PlayerFlagExpansion extends PlaceholderExpansion {
 
     @Override
     public @Nullable String onPlaceholderRequest(Player player, @NotNull String identifier) {
-        return switch (identifier.toLowerCase()) {
-            case "playerflag" -> {
-                if(player == null) yield "";
+        switch (identifier.toLowerCase()) {
+            case "playerflag": {
+                if(player == null) return "";
                 LabyModPlayer labyPlayer = LabyModProtocolService.get().getPlayer(player.getUniqueId());
-                if(labyPlayer == null) yield "";
-                yield labyPlayer.getTabListFlag() != null ? labyPlayer.getTabListFlag().getCountryCode().name() : "";
+                if(labyPlayer == null) return "";
+                return labyPlayer.getTabListFlag() != null ? labyPlayer.getTabListFlag().getCountryCode().name() : "";
             }
-            default -> null;
-        };
+            default: return null;
+        }
     }
 }
