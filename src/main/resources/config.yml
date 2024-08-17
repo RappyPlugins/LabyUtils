@@ -40,7 +40,10 @@ interactions:
   enabled: false
 
   bullets:
-    - title: Bullet point 1
+    # Of course you can create more objects here.
+    # Note: The object keys (in this case 'test', 'ban' and 'head') do nothing. They're just seperators
+    test:
+      title: Bullet point 1
       # The permission they need to have on the server to see the bullet point. Leave out to disable
       permission: someplugin.somepermission
       # RUN_COMMAND - Executes the value as command
@@ -52,12 +55,14 @@ interactions:
       # - {name} - Will be replaced with the player's name
       # - {uuid} - Will be replaced with the player's unique id.
       value: '/somecommand'
-    - title: Ban player
+    ban:
+      title: Ban player
       permission: someplugin.ban
       type: RUN_COMMAND
       value: '/ban {name}'
-    - title: Copy head url
-      type: OPEN_BROWSER
+    head:
+      title: Copy head url
+      type: CLIPBOARD
       value: 'https://mc-heads.net/head/{uuid}'
 
 addons:
@@ -81,6 +86,7 @@ addons:
       someaddon: true
       someotheraddon: false
 
+# This feature does not work at the moment. I suspect a bug in the server api. I'm investigating it
 permissions:
   # Enable or disable specific permissions of the labymod or it's addons
   enabled: false
