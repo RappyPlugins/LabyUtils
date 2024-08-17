@@ -1,17 +1,58 @@
 package com.rappytv.labyutils;
 
+import com.rappytv.labyutils.commands.ReloadCommand;
+import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
+import com.rappytv.labyutils.expansion.PlayerFlagExpansion;
+import com.rappytv.labyutils.listeners.EconomyBalanceUpdateListener;
+import com.rappytv.labyutils.listeners.PlayerListener;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Objects;
 
 public final class LabyUtilsPlugin extends JavaPlugin {
 
+    private Economy economy = null;
+    private boolean usingPapi = false;
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
-
+        saveDefaultConfig();
+        if(!loadVaultEconomy())
+            getLogger().info("Vault not accessible. Economy display disabled.");
+        if(!loadPlaceholderAPI())
+            getLogger().info("PlaceholderAPI not installed.");
+        else new PlayerFlagExpansion(this).register();
+        EconomyBalanceUpdateEvent.initialize(this);
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new EconomyBalanceUpdateListener(this), this);
+        pluginManager.registerEvents(new PlayerListener(this), this);
+        Objects.requireNonNull(Bukkit.getPluginCommand("labyutils")).setExecutor(new ReloadCommand(this));
     }
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+    @Nullable
+    public Economy getEconomy() {
+        return economy;
+    }
+
+    public boolean isUsingPapi() {
+        return usingPapi;
+    }
+
+    private boolean loadVaultEconomy() {
+        if(getServer().getPluginManager().getPlugin("Vault") == null) return false;
+        RegisteredServiceProvider<Economy> provider = getServer().getServicesManager().getRegistration(Economy.class);
+        if(provider == null) return false;
+        economy = provider.getProvider();
+        return true;
+    }
+
+    private boolean loadPlaceholderAPI() {
+        usingPapi = getServer().getPluginManager().getPlugin("PlaceholderAPI") != null;
+        return usingPapi;
     }
 }
