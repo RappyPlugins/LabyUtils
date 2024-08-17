@@ -22,11 +22,21 @@ public final class LabyUtilsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        if(!loadVaultEconomy())
-            getLogger().info("Vault not accessible. Economy display disabled.");
-        if(!loadPlaceholderAPI())
-            getLogger().info("PlaceholderAPI not installed.");
-        else new PlayerFlagExpansion(this).register();
+
+        // Load dependencies
+        if(loadVaultEconomy()) {
+            getLogger().info("Vault is installed, loaded economy provider!");
+        } else {
+            getLogger().warning("Vault not accessible. Economy display disabled.");
+        }
+
+        if(loadPlaceholderAPI()) {
+            getLogger().info("PlaceholderAPI is installed. Registering expansion...");
+            new PlayerFlagExpansion(this).register();
+        } else {
+            getLogger().warning("PlaceholderAPI not installed.");
+        }
+
         EconomyBalanceUpdateEvent.initialize(this);
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new EconomyBalanceUpdateListener(this), this);
