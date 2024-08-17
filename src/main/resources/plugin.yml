@@ -6,3 +6,16 @@ authors: [ RappyTV ]
 description: About A simple plugin to utilize LabyMod's plugin API without coding knowledge.
 depend:
   - LabyModServerAPI
+softdepend:
+  - Vault
+  - PlaceholderAPI
+
+permissions:
+  labyutils.reload:
+    description: Lets the player reload the config with /labyutils
+    default: op
+
+commands:
+  labyutils:
+    permission: labyutils.reload
+    description: Reloads the plugin config
