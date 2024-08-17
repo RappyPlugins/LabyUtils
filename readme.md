@@ -16,6 +16,6 @@ Depends on
 
 Optional dependencies
 - Vault - For economy displays
-- PlaceholderAPI Should be self-explanatory
+- PlaceholderAPI - Should be self-explanatory
 
 Note: I'm not a LabyMod developer so this is an unofficial plugin.
