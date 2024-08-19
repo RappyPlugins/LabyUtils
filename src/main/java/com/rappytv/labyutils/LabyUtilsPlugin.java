@@ -5,6 +5,7 @@ import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
 import com.rappytv.labyutils.expansion.PlayerFlagExpansion;
 import com.rappytv.labyutils.listeners.EconomyBalanceUpdateListener;
 import com.rappytv.labyutils.listeners.PlayerListener;
+import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -22,6 +23,12 @@ public final class LabyUtilsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        try {
+            LabyModProtocolService.initialize(this);
+            getLogger().info("LabyMod protocol service initialized.");
+        } catch (IllegalStateException e) {
+            getLogger().info("LabyMod protocol service already initialized.");
+        }
 
         // Load dependencies
         if(loadVaultEconomy()) {
