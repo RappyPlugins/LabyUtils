@@ -4,8 +4,6 @@ main: com.rappytv.labyutils.LabyUtilsPlugin
 api-version: '1.13'
 authors: [ RappyTV ]
 description: A simple plugin to utilize LabyMod's server API without coding knowledge.
-depend:
-  - LabyModServerAPI
 softdepend:
   - Vault
   - PlaceholderAPI
