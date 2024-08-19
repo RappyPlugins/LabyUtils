@@ -84,7 +84,6 @@
             <groupId>net.labymod.serverapi</groupId>
             <artifactId>server-bukkit</artifactId>
             <version>1.0.2</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
