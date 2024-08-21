@@ -9,6 +9,9 @@ softdepend:
   - PlaceholderAPI
 
 permissions:
+  labyutils.bypass.*:
+    description: Ignores any recommended, required, or disallowed addons
+    default: op
   labyutils.reload:
     description: Lets the player reload the config with /labyutils
     default: op

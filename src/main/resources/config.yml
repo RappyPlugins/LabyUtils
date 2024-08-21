@@ -66,25 +66,26 @@ interactions:
       value: 'https://mc-heads.net/head/{uuid}'
 
 addons:
-  disabled:
-    # If the value is true all addons with the namespace being included in the addons array will be disabled
-    enabled: false
-    # The addons to disable
-    addons:
-      - someaddon
-      - someotheraddon
-  recommendations:
-    # If addon recommendations should be enabled
-    enabled: false
-    # "%s" is the list of required addons
-    kickMessage: |-
-      §c§lKICKED!
-      
-      §bReason: §7Missing required addons: %s
-    addons:
-      # If the value is true the addon is required, otherwise it's just a recommended addon
-      someaddon: true
-      someotheraddon: false
+  # Set to false to disable this completely
+  enabled: false
+  # The kick message if the player does not have all required addons
+  # "%s" is the list of required addons
+  kickMessage: |-
+    §c§lKICKED!
+    
+    §bReason: §7Missing required addons: %s
+  addons:
+    # Note: The value keys are the addon namespaces.
+    #
+    # Accepted values are
+    # - recommend - Recommends addon to player
+    # - require - Recommends addon to player AND kicks player if they didn't download it
+    # - disable - Disables addon completely
+    #
+    # To add a bypass for an addon give the 'labyutils.bypass.<namespace>'
+    # permission to a player or a group and the action will be prevented.
+    someaddon: recommend
+    someotheraddon: disable
 
 # This feature does not work at the moment. I suspect a bug in the server api. I'm investigating it
 permissions:
