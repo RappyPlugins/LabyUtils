@@ -24,9 +24,6 @@ permissions:
   labyutils.info.version:
     default: op
     description: Lets the player see a player's LabyMod version with /labyinfo
-  labyutils.info.addons:
-    default: op
-    description: Lets the player see a player's installed LabyMod addons with /labyinfo
   labyutils.info.region:
     default: op
     description: Lets the player see a player's region with /labyinfo
