@@ -14,16 +14,30 @@ A simple plugin to utilize LabyMod's server API without coding knowledge.
 - Country flags beside your name in the tablist
 - Subtitles below player names based on their permissions
 - Customizable interaction menu bullets
-- Addons which are disabled on join
-- Recommended addons
-- Required addons (The player will get kicked if not having all required addons)
 - Enabled/disabled permissions which allow or limit core/addon functions of LabyMod
 - Partly customizable Discord rich presence (LabyMod does not allow fully customizable rpc)
+- A command to see LabyMod specific information of a player
+  - The LabyMod subtitle
+  - The economy balances
+  - The LabyMod version
+  - The region code
+- Put specific addons into on of 3 states (These are bypassable with permissions)
+  - Recommended (Shows the player a popup recommending these addons)
+  - Required (The player will get kicked if not installing all required addons from the popup)
+  - Disabled (Disables addons completely)
 
-### Commands:
+### Commands
+- `/labyinfo` - Shows LabyMod specific info about a player.
 - `/labyutils` - Reloads the config.
 
-### Permissions:
+### Permissions
+- `labyutils.bypass.*` - Ignores all recommended, required, or disallowed addons
+- `labyutils.bypass.<namespace>` - Ignores a specific recommended, required, or disallowed addon
+- `labyutils.info` - Grants base access to `/labyinfo`
+- `labyutils.info.subtitle` - See player subtitles in `/labyutils`
+- `labyutils.info.economy` - See economy balances in `/labyutils`
+- `labyutils.info.version` - See LabyMod versions in `/labyutils`
+- `labyutils.info.region` - See player regions in `/labyutils`
 - `labyutils.reload` - Grants access to `/labyutils`
 
 ## Dependencies
