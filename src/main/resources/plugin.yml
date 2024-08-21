@@ -10,13 +10,34 @@ softdepend:
 
 permissions:
   labyutils.bypass.*:
+    default: op
     description: Ignores any recommended, required, or disallowed addons
+  labyutils.info:
     default: op
+    description: Lets the player use /labyinfo
+  labyutils.info.subtitle:
+    default: op
+    description: Lets the player see a player's server subtitle with /labyinfo
+  labyutils.info.economy:
+    default: op
+    description: Lets the player see a player's economy balances with /labyinfo
+  labyutils.info.version:
+    default: op
+    description: Lets the player see a player's LabyMod version with /labyinfo
+  labyutils.info.addons:
+    default: op
+    description: Lets the player see a player's installed LabyMod addons with /labyinfo
+  labyutils.info.region:
+    default: op
+    description: Lets the player see a player's region and IP address with /labyinfo
   labyutils.reload:
-    description: Lets the player reload the config with /labyutils
     default: op
+    description: Lets the player reload the config with /labyutils
 
 commands:
+  labyinfo:
+    description: Shows LabyMod specific info about a player
+    permission: labyutils.info
   labyutils:
-    permission: labyutils.reload
     description: Reloads the plugin config
+    permission: labyutils.reload
