@@ -11,6 +11,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 public class LabyInfoCommand implements CommandExecutor {
 
     private final LabyUtilsPlugin plugin;
@@ -51,19 +56,32 @@ public class LabyInfoCommand implements CommandExecutor {
         }
         if(sender.hasPermission("labyutils.info.economy")) {
             response += "\n" + LabyUtilsPlugin.getPrefix() +
-                    "§bEconomy cash: §a" + labyPlayer.cashEconomy().getBalance() +
+                    "§bEconomy cash: §7" + formatNumber(labyPlayer.cashEconomy().getBalance()) +
                     "\n" + LabyUtilsPlugin.getPrefix() +
-                    "§bEconomy bank: §a" + labyPlayer.bankEconomy().getBalance();
+                    "§bEconomy bank: §7" + formatNumber(labyPlayer.bankEconomy().getBalance());
         }
         if(sender.hasPermission("labyutils.info.version")) {
-            response += "\n" + LabyUtilsPlugin.getPrefix() + "§bLabyMod version: §b" + labyPlayer.getLabyModVersion();
+            response += "\n" + LabyUtilsPlugin.getPrefix() + "§bLabyMod version: §7v" + labyPlayer.getLabyModVersion();
         }
         if(plugin.getConfig().getBoolean("subtitles.enabled")
                 && sender.hasPermission("labyutils.info.region")) {
-            String flag = labyPlayer.getTabListFlag() != null ? labyPlayer.getTabListFlag().toString() : "--";
+            String flag = labyPlayer.getTabListFlag() != null
+                    ? labyPlayer.getTabListFlag().getCountryCode().name()
+                    : "--";
             response += "\n" + LabyUtilsPlugin.getPrefix() + "§bRegion: §7" + flag;
         }
         sender.sendMessage(response);
         return true;
+    }
+
+    private String formatNumber(double number) {
+        DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
+        DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        symbols.setDecimalSeparator(',');
+        formatter.setMaximumFractionDigits(2);
+        formatter.setDecimalFormatSymbols(symbols);
+
+        return formatter.format(number);
     }
 }
