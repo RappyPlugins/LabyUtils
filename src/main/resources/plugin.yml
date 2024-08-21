@@ -29,7 +29,7 @@ permissions:
     description: Lets the player see a player's installed LabyMod addons with /labyinfo
   labyutils.info.region:
     default: op
-    description: Lets the player see a player's region and IP address with /labyinfo
+    description: Lets the player see a player's region with /labyinfo
   labyutils.reload:
     default: op
     description: Lets the player reload the config with /labyutils
