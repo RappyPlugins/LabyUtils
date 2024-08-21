@@ -4,7 +4,6 @@ import com.rappytv.labyutils.LabyUtilsPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
 
 public class ReloadCommand implements CommandExecutor {
 
@@ -15,13 +14,13 @@ public class ReloadCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String prefix, @NotNull String[] args) {
+    public boolean onCommand(CommandSender sender, Command command, String prefix, String[] args) {
         if(!sender.hasPermission("labyutils.reload")) {
-            sender.sendMessage("§cYou are not allowed to use this command!");
+            sender.sendMessage(LabyUtilsPlugin.getPrefix() + "§cYou are not allowed to use this command!");
             return false;
         }
         plugin.reloadConfig();
-        sender.sendMessage("§9Addon config successfully reloaded!");
+        sender.sendMessage(LabyUtilsPlugin.getPrefix() + "§7Addon config successfully reloaded!");
         return true;
     }
 }
