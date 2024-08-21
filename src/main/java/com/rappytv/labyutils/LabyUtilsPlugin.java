@@ -1,5 +1,6 @@
 package com.rappytv.labyutils;
 
+import com.rappytv.labyutils.commands.LabyInfoCommand;
 import com.rappytv.labyutils.commands.ReloadCommand;
 import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
 import com.rappytv.labyutils.expansion.PlayerFlagExpansion;
@@ -17,11 +18,13 @@ import java.util.Objects;
 
 public final class LabyUtilsPlugin extends JavaPlugin {
 
+    private static LabyUtilsPlugin instance;
     private Economy economy = null;
     private boolean usingPapi = false;
 
     @Override
     public void onEnable() {
+        instance = this;
         saveDefaultConfig();
         try {
             LabyModProtocolService.initialize(this);
@@ -48,7 +51,12 @@ public final class LabyUtilsPlugin extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new EconomyBalanceUpdateListener(this), this);
         pluginManager.registerEvents(new PlayerListener(this), this);
+        Objects.requireNonNull(Bukkit.getPluginCommand("labyinfo")).setExecutor(new LabyInfoCommand(this));
         Objects.requireNonNull(Bukkit.getPluginCommand("labyutils")).setExecutor(new ReloadCommand(this));
+    }
+
+    public static String getPrefix() {
+        return instance.getConfig().getString("prefix", "§8[§9LABY§8] ");
     }
 
     @Nullable

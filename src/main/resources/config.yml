@@ -8,6 +8,8 @@
 #                                                          #
 ############################################################
 
+prefix: '§8[§9LABY§8] '
+
 banner:
   # Set this to true if you want to enable the banner above the tablist
   enabled: false
