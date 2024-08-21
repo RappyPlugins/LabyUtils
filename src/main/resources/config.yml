@@ -69,6 +69,7 @@ addons:
   # Set to false to disable this completely
   enabled: false
   # The kick message if the player does not have all required addons
+  # "%s" is the list of required addons
   kickMessage: |-
     §c§lKICKED!
     
