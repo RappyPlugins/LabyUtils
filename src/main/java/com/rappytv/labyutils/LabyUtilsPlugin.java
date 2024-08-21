@@ -1,5 +1,6 @@
 package com.rappytv.labyutils;
 
+import com.rappytv.labyutils.commands.LabyInfoCommand;
 import com.rappytv.labyutils.commands.ReloadCommand;
 import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
 import com.rappytv.labyutils.expansion.PlayerFlagExpansion;
@@ -50,6 +51,7 @@ public final class LabyUtilsPlugin extends JavaPlugin {
         PluginManager pluginManager = getServer().getPluginManager();
         pluginManager.registerEvents(new EconomyBalanceUpdateListener(this), this);
         pluginManager.registerEvents(new PlayerListener(this), this);
+        Objects.requireNonNull(Bukkit.getPluginCommand("labyinfo")).setExecutor(new LabyInfoCommand(this));
         Objects.requireNonNull(Bukkit.getPluginCommand("labyutils")).setExecutor(new ReloadCommand(this));
     }
 
