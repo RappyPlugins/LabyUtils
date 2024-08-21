@@ -1,6 +1,7 @@
 package com.rappytv.labyutils.commands;
 
 import com.rappytv.labyutils.LabyUtilsPlugin;
+import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
 import org.bukkit.Bukkit;
@@ -41,10 +42,12 @@ public class LabyInfoCommand implements CommandExecutor {
             sender.sendMessage(response);
             return true;
         }
-        response += "\n" + LabyUtilsPlugin.getPrefix() + "§bUsing LabyMod: §cYes";
+        response += "\n" + LabyUtilsPlugin.getPrefix() + "§bUsing LabyMod: §aYes";
         if(plugin.getConfig().getBoolean("subtitles.enabled")
                 && sender.hasPermission("labyutils.info.subtitle")) {
-            response += "\n" + LabyUtilsPlugin.getPrefix() + "§bServer subtitle: §7" + labyPlayer.subtitle();
+            ServerAPITextComponent component = (ServerAPITextComponent) labyPlayer.subtitle().getText();
+            String subtitle = component != null ? component.getText() : "--";
+            response += "\n" + LabyUtilsPlugin.getPrefix() + "§bServer subtitle: §7" + subtitle;
         }
         if(sender.hasPermission("labyutils.info.economy")) {
             response += "\n" + LabyUtilsPlugin.getPrefix() +
