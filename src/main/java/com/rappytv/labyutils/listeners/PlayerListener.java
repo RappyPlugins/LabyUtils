@@ -144,7 +144,7 @@ public class PlayerListener implements Listener {
             boolean canBypass = player.getPlayer().hasPermission("labyutils.bypass.*")
                     || player.getPlayer().hasPermission("labyutils.bypass." + key);
             if(canBypass) continue;
-            switch (section.getString(key)) {
+            switch (section.getString(key, "none").toLowerCase()) {
                 case "recommend":
                     recommendedAddons.add(RecommendedAddon.of(key, false));
                     break;
