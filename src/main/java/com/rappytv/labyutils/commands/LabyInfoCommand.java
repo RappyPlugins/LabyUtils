@@ -1,6 +1,7 @@
 package com.rappytv.labyutils.commands;
 
 import com.rappytv.labyutils.LabyUtilsPlugin;
+import com.rappytv.labyutils.listeners.PlayerListener;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
@@ -65,8 +66,8 @@ public class LabyInfoCommand implements CommandExecutor {
         }
         if(plugin.getConfig().getBoolean("subtitles.enabled")
                 && sender.hasPermission("labyutils.info.region")) {
-            String flag = labyPlayer.getTabListFlag() != null
-                    ? labyPlayer.getTabListFlag().getCountryCode().name()
+            String flag = PlayerListener.cachedFlags.containsKey(player.getUniqueId())
+                    ? PlayerListener.cachedFlags.get(player.getUniqueId()).name()
                     : "--";
             response += "\n" + LabyUtilsPlugin.getPrefix() + "§bRegion: §7" + flag;
         }

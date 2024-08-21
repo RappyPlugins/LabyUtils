@@ -31,7 +31,7 @@ import java.util.function.Consumer;
 
 public class PlayerListener implements Listener {
 
-    private final static Map<UUID, TabListFlag.TabListFlagCountryCode> cachedFlags = new HashMap<>();
+    public final static Map<UUID, TabListFlag.TabListFlagCountryCode> cachedFlags = new HashMap<>();
     private final static Gson gson = new Gson();
     private final static HttpClient client = HttpClient.newHttpClient();
     private final static String defaultKickMessage = "§c§lKICKED!\n\n§bReason: §7Missing required addons: %s";
@@ -67,9 +67,10 @@ public class PlayerListener implements Listener {
     }
 
     private void setFlag(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("flags.enabled")) return;
         getCountryCode(player.getPlayer(), (flag) -> {
-            if(flag != null) Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> player.setTabListFlag(flag));
+            if(flag != null && plugin.getConfig().getBoolean("flags.enabled")) {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> player.setTabListFlag(flag));
+            }
         });
     }
 
