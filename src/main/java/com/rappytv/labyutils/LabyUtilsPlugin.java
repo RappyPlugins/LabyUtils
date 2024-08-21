@@ -17,11 +17,13 @@ import java.util.Objects;
 
 public final class LabyUtilsPlugin extends JavaPlugin {
 
+    private static LabyUtilsPlugin instance;
     private Economy economy = null;
     private boolean usingPapi = false;
 
     @Override
     public void onEnable() {
+        instance = this;
         saveDefaultConfig();
         try {
             LabyModProtocolService.initialize(this);
@@ -49,6 +51,10 @@ public final class LabyUtilsPlugin extends JavaPlugin {
         pluginManager.registerEvents(new EconomyBalanceUpdateListener(this), this);
         pluginManager.registerEvents(new PlayerListener(this), this);
         Objects.requireNonNull(Bukkit.getPluginCommand("labyutils")).setExecutor(new ReloadCommand(this));
+    }
+
+    public static String getPrefix() {
+        return instance.getConfig().getString("prefix", "§8[§9LABY§8] ");
     }
 
     @Nullable
