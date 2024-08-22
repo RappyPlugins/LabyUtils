@@ -28,6 +28,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class PlayerListener implements Listener {
 
@@ -207,7 +208,9 @@ public class PlayerListener implements Listener {
         if(section == null) return;
 
         for(String key : section.getKeys(false)) {
-            permissions.add(section.getBoolean(key) ? Permission.of(key).allow() : Permission.of(key).deny());
+            boolean hasPermission = player.getPlayer().hasPermission("labyutils.permissions.*")
+                    || player.getPlayer().hasPermission("labyutils.permissions." + section.getString(key));
+            permissions.add(hasPermission ? Permission.of(key).allow() : Permission.of(key).deny());
         }
 
         player.sendPermissions(permissions);
