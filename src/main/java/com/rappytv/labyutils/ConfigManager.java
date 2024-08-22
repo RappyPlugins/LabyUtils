@@ -7,10 +7,17 @@ public class ConfigManager {
 
     private final static String defaultPrefix = "§8[§9LABY§8] ";
     private final static String defaultKickMessage = "§c§lKICKED!\n\n§bReason: §7Missing required addons: %s";
-    private final Configuration config;
+    private final LabyUtilsPlugin plugin;
+    private Configuration config;
 
     public ConfigManager(LabyUtilsPlugin plugin) {
+        this.plugin = plugin;
         this.config = plugin.getConfig();
+    }
+
+    public void reloadConfig() {
+        plugin.reloadConfig();
+        config = plugin.getConfig();
     }
 
     public String getPrefix() {
