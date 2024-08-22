@@ -1,6 +1,7 @@
 package com.rappytv.labyutils.expansion;
 
 import com.rappytv.labyutils.LabyUtilsPlugin;
+import com.rappytv.labyutils.listeners.PlayerListener;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
@@ -53,7 +54,9 @@ public class LabyModPlayerExpansion extends PlaceholderExpansion {
 
             switch (identifier.toLowerCase()) {
                 case "playerflag": {
-                    return labyPlayer.getTabListFlag() != null ? labyPlayer.getTabListFlag().getCountryCode().name() : "";
+                    return PlayerListener.cachedFlags.containsKey(player.getUniqueId())
+                            ? PlayerListener.cachedFlags.get(player.getUniqueId()).name()
+                            : "--";
                 }
                 case "subtitle": {
                     ServerAPITextComponent component = (ServerAPITextComponent) labyPlayer.subtitle().getText();

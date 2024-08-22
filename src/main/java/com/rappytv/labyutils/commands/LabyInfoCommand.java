@@ -64,8 +64,7 @@ public class LabyInfoCommand implements CommandExecutor {
         if(sender.hasPermission("labyutils.info.version")) {
             response += "\n" + LabyUtilsPlugin.getPrefix() + "§bLabyMod version: §7v" + labyPlayer.getLabyModVersion();
         }
-        if(plugin.getConfig().getBoolean("subtitles.enabled")
-                && sender.hasPermission("labyutils.info.region")) {
+        if(sender.hasPermission("labyutils.info.region")) {
             String flag = PlayerListener.cachedFlags.containsKey(player.getUniqueId())
                     ? PlayerListener.cachedFlags.get(player.getUniqueId()).name()
                     : "--";
