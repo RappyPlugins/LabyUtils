@@ -49,7 +49,7 @@ public class LabyInfoCommand implements CommandExecutor {
             return true;
         }
         response += "\n" + LabyUtilsPlugin.getPrefix() + "§bUsing LabyMod: §aYes";
-        if(plugin.getConfig().getBoolean("subtitles.enabled")
+        if(plugin.getConfigManager().areSubtitlesEnabled()
                 && sender.hasPermission("labyutils.info.subtitle")) {
             ServerAPITextComponent component = (ServerAPITextComponent) labyPlayer.subtitle().getText();
             String subtitle = component != null ? component.getText() : "--";
@@ -64,8 +64,7 @@ public class LabyInfoCommand implements CommandExecutor {
         if(sender.hasPermission("labyutils.info.version")) {
             response += "\n" + LabyUtilsPlugin.getPrefix() + "§bLabyMod version: §7v" + labyPlayer.getLabyModVersion();
         }
-        if(plugin.getConfig().getBoolean("subtitles.enabled")
-                && sender.hasPermission("labyutils.info.region")) {
+        if(sender.hasPermission("labyutils.info.region")) {
             String flag = PlayerListener.cachedFlags.containsKey(player.getUniqueId())
                     ? PlayerListener.cachedFlags.get(player.getUniqueId()).name()
                     : "--";

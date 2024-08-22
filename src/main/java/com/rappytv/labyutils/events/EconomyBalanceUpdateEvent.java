@@ -46,10 +46,10 @@ public class EconomyBalanceUpdateEvent extends Event {
 
     public static void initialize(LabyUtilsPlugin plugin) {
         if(plugin.getEconomy() == null) return;
-        long updateInterval = plugin.getConfig().getInt("economy.updateInterval") * 20L;
+        long updateInterval = plugin.getConfigManager().getEconomyUpdateInterval() * 20L;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
-            boolean cash = plugin.getConfig().getBoolean("economy.cash");
-            boolean bank = plugin.getConfig().getBoolean("economy.bank");
+            boolean cash = plugin.getConfigManager().showCashBalance();
+            boolean bank = plugin.getConfigManager().showBankBalance();
             if(!cash && !bank) return;
 
             for(Player player : Bukkit.getOnlinePlayers()) {

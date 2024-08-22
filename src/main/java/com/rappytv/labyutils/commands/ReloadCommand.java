@@ -19,7 +19,7 @@ public class ReloadCommand implements CommandExecutor {
             sender.sendMessage(LabyUtilsPlugin.getPrefix() + "§cYou are not allowed to use this command!");
             return false;
         }
-        plugin.reloadConfig();
+        plugin.getConfigManager().reloadConfig();
         sender.sendMessage(LabyUtilsPlugin.getPrefix() + "§7Addon config successfully reloaded!");
         return true;
     }

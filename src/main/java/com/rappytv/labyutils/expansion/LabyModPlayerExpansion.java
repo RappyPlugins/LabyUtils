@@ -1,6 +1,7 @@
 package com.rappytv.labyutils.expansion;
 
 import com.rappytv.labyutils.LabyUtilsPlugin;
+import com.rappytv.labyutils.listeners.PlayerListener;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
@@ -9,11 +10,11 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PlayerFlagExpansion extends PlaceholderExpansion {
+public class LabyModPlayerExpansion extends PlaceholderExpansion {
 
     private final LabyUtilsPlugin plugin;
 
-    public PlayerFlagExpansion(LabyUtilsPlugin plugin) {
+    public LabyModPlayerExpansion(LabyUtilsPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -42,8 +43,8 @@ public class PlayerFlagExpansion extends PlaceholderExpansion {
         if(player == null) {
             switch (identifier.toLowerCase()) {
                 case "banner": {
-                    if(!plugin.getConfig().getBoolean("banner.enabled")) return "";
-                    return plugin.getConfig().getString("banner.url", "");
+                    if(!plugin.getConfigManager().isBannerEnabled()) return "";
+                    return plugin.getConfigManager().getBannerUrl();
                 }
                 default: return null;
             }
@@ -53,7 +54,9 @@ public class PlayerFlagExpansion extends PlaceholderExpansion {
 
             switch (identifier.toLowerCase()) {
                 case "playerflag": {
-                    return labyPlayer.getTabListFlag() != null ? labyPlayer.getTabListFlag().getCountryCode().name() : "";
+                    return PlayerListener.cachedFlags.containsKey(player.getUniqueId())
+                            ? PlayerListener.cachedFlags.get(player.getUniqueId()).name()
+                            : "--";
                 }
                 case "subtitle": {
                     ServerAPITextComponent component = (ServerAPITextComponent) labyPlayer.subtitle().getText();

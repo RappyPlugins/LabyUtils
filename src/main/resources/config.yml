@@ -10,6 +10,18 @@
 
 prefix: '§8[§9LABY§8] '
 
+welcome:
+  # Enables a welcome message specifically for LabyMod players
+  enabled: false
+  # Sends a log message into the console when a LabyMod player joins
+  log: true
+
+  # This string supports placeholders.
+  # To use the prefix just append <prefix>
+  message: |-
+    <prefix>§7Thanks for using LabyMod!
+    <prefix>§7§oLabyUtils on Spigot
+
 banner:
   # Set this to true if you want to enable the banner above the tablist
   enabled: false

@@ -3,7 +3,7 @@ package com.rappytv.labyutils;
 import com.rappytv.labyutils.commands.LabyInfoCommand;
 import com.rappytv.labyutils.commands.ReloadCommand;
 import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
-import com.rappytv.labyutils.expansion.PlayerFlagExpansion;
+import com.rappytv.labyutils.expansion.LabyModPlayerExpansion;
 import com.rappytv.labyutils.listeners.EconomyBalanceUpdateListener;
 import com.rappytv.labyutils.listeners.PlayerListener;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
@@ -21,10 +21,12 @@ public final class LabyUtilsPlugin extends JavaPlugin {
     private static LabyUtilsPlugin instance;
     private Economy economy = null;
     private boolean usingPapi = false;
+    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
         instance = this;
+        configManager = new ConfigManager(this);
         saveDefaultConfig();
         try {
             LabyModProtocolService.initialize(this);
@@ -42,7 +44,7 @@ public final class LabyUtilsPlugin extends JavaPlugin {
 
         if(loadPlaceholderAPI()) {
             getLogger().info("PlaceholderAPI is installed. Registering expansion...");
-            new PlayerFlagExpansion(this).register();
+            new LabyModPlayerExpansion(this).register();
         } else {
             getLogger().warning("PlaceholderAPI not installed.");
         }
@@ -56,7 +58,7 @@ public final class LabyUtilsPlugin extends JavaPlugin {
     }
 
     public static String getPrefix() {
-        return instance.getConfig().getString("prefix", "§8[§9LABY§8] ");
+        return instance.getConfigManager().getPrefix();
     }
 
     @Nullable
@@ -66,6 +68,10 @@ public final class LabyUtilsPlugin extends JavaPlugin {
 
     public boolean isUsingPapi() {
         return usingPapi;
+    }
+
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 
     private boolean loadVaultEconomy() {
