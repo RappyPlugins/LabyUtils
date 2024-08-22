@@ -106,8 +106,12 @@ permissions:
   # Enable or disable specific permissions of the labymod or it's addons
   enabled: false
   permissions:
-    # The value on the right is if the player has the permission or not
-    chat_autotext: true
+    # The value on the right is the permission which the player requires to have on the server
+    # Players receive the LabyMod permission if they have 'labyutils.permissions.<value>' or 'labyutils.permissions.*'
+    # In this example you'd have to give a player the 'labyutils.permissions.autotext' permission
+    chat_autotext: autotext
+    # In this example you'd have to give a player the 'labyutils.permissions.tnt_timer' permission
+    tnttimer: tnt_timer
 
 rpc:
   # Set to true if you want to enable Discord Rich presence
