@@ -41,6 +41,8 @@ A simple plugin to utilize LabyMod's server API without coding knowledge.
 - `labyutils.reload` - Grants access to `/labyutils`
 
 ## Dependencies
+Requires Java 11+
+
 Optional dependencies
 - Vault - For economy displays
 - PlaceholderAPI - For placeholders. See [supported placeholders](https://github.com/RappyPlugins/LabyUtils/master/readme.md#supported-placeholderapi-placeholders)
