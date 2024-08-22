@@ -21,10 +21,12 @@ public final class LabyUtilsPlugin extends JavaPlugin {
     private static LabyUtilsPlugin instance;
     private Economy economy = null;
     private boolean usingPapi = false;
+    private ConfigManager configManager;
 
     @Override
     public void onEnable() {
         instance = this;
+        configManager = new ConfigManager(this);
         saveDefaultConfig();
         try {
             LabyModProtocolService.initialize(this);
@@ -56,7 +58,7 @@ public final class LabyUtilsPlugin extends JavaPlugin {
     }
 
     public static String getPrefix() {
-        return instance.getConfig().getString("prefix", "§8[§9LABY§8] ");
+        return instance.getConfigManager().getPrefix();
     }
 
     @Nullable
@@ -66,6 +68,10 @@ public final class LabyUtilsPlugin extends JavaPlugin {
 
     public boolean isUsingPapi() {
         return usingPapi;
+    }
+
+    public ConfigManager getConfigManager() {
+        return configManager;
     }
 
     private boolean loadVaultEconomy() {
