@@ -3,7 +3,7 @@ package com.rappytv.labyutils;
 import com.rappytv.labyutils.commands.LabyInfoCommand;
 import com.rappytv.labyutils.commands.ReloadCommand;
 import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
-import com.rappytv.labyutils.expansion.PlayerFlagExpansion;
+import com.rappytv.labyutils.expansion.LabyModPlayerExpansion;
 import com.rappytv.labyutils.listeners.EconomyBalanceUpdateListener;
 import com.rappytv.labyutils.listeners.PlayerListener;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
@@ -42,7 +42,7 @@ public final class LabyUtilsPlugin extends JavaPlugin {
 
         if(loadPlaceholderAPI()) {
             getLogger().info("PlaceholderAPI is installed. Registering expansion...");
-            new PlayerFlagExpansion(this).register();
+            new LabyModPlayerExpansion(this).register();
         } else {
             getLogger().warning("PlaceholderAPI not installed.");
         }

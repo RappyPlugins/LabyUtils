@@ -9,11 +9,11 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class PlayerFlagExpansion extends PlaceholderExpansion {
+public class LabyModPlayerExpansion extends PlaceholderExpansion {
 
     private final LabyUtilsPlugin plugin;
 
-    public PlayerFlagExpansion(LabyUtilsPlugin plugin) {
+    public LabyModPlayerExpansion(LabyUtilsPlugin plugin) {
         this.plugin = plugin;
     }
 
