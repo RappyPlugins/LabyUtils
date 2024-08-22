@@ -34,7 +34,6 @@ public class PlayerListener implements Listener {
     public final static Map<UUID, TabListFlag.TabListFlagCountryCode> cachedFlags = new HashMap<>();
     private final static Gson gson = new Gson();
     private final static HttpClient client = HttpClient.newHttpClient();
-    private final static String defaultKickMessage = "§c§lKICKED!\n\n§bReason: §7Missing required addons: %s";
 
     private final LabyUtilsPlugin plugin;
 
@@ -64,7 +63,7 @@ public class PlayerListener implements Listener {
     }
 
     private void logJoin(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("welcome.log")) return;
+        if(!plugin.getConfigManager().isWelcomeLogEnabled()) return;
         plugin.getLogger().info(String.format(
                 "%s just joined with LabyMod v%s!",
                 player.getPlayer().getName(),
@@ -73,10 +72,10 @@ public class PlayerListener implements Listener {
     }
 
     private void sendWelcomer(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("welcome.enabled")) return;
+        if(!plugin.getConfigManager().isWelcomeMessageEnabled()) return;
         String text = plugin
-                .getConfig()
-                .getString("welcome.message")
+                .getConfigManager()
+                .getWelcomeMessage()
                 .replace("<prefix>", LabyUtilsPlugin.getPrefix());
         if(plugin.isUsingPapi()) {
             text = PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
@@ -85,23 +84,23 @@ public class PlayerListener implements Listener {
     }
 
     private void setBanner(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("banner.enabled")) return;
-        player.sendTabListBanner(plugin.getConfig().getString("banner.url"));
+        if(!plugin.getConfigManager().isBannerEnabled()) return;
+        player.sendTabListBanner(plugin.getConfigManager().getBannerUrl());
     }
 
     private void setFlag(LabyModPlayer player) {
         getCountryCode(player.getPlayer(), (flag) -> {
-            if(flag != null && plugin.getConfig().getBoolean("flags.enabled")) {
+            if(flag != null && plugin.getConfigManager().areFlagsEnabled()) {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> player.setTabListFlag(flag));
             }
         });
     }
 
     private void setSubtitle(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("subtitles.enabled")) return;
+        if(!plugin.getConfigManager().areSubtitlesEnabled()) return;
         ConfigurationSection section = plugin
-                .getConfig()
-                .getConfigurationSection("subtitles.subtitles");
+                .getConfigManager()
+                .getSubtitles();
 
         if(section == null) return;
         ServerAPIComponent component = null;
@@ -128,11 +127,11 @@ public class PlayerListener implements Listener {
     }
 
     private void setInteractionBullets(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("interactions.enabled")) return;
+        if(!plugin.getConfigManager().areInteractionsEnabled()) return;
         List<InteractionMenuEntry> entries = new ArrayList<>();
         ConfigurationSection section = plugin
-                .getConfig()
-                .getConfigurationSection("interactions.bullets");
+                .getConfigManager()
+                .getInteractionBullets();
 
         for(String key : section.getKeys(false)) {
             if(section.isString(key + ".permission")
@@ -154,13 +153,13 @@ public class PlayerListener implements Listener {
     }
 
     private void manageAddons(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("addons.enabled")) return;
+        if(!plugin.getConfigManager().isAddonManagementEnabled()) return;
         List<RecommendedAddon> recommendedAddons = new ArrayList<>();
         List<String> disabledAddons = new ArrayList<>();
 
         ConfigurationSection section = plugin
-                .getConfig()
-                .getConfigurationSection("addons.addons");
+                .getConfigManager()
+                .getAddonManagement();
 
         if(section == null) return;
 
@@ -186,7 +185,7 @@ public class PlayerListener implements Listener {
                 if(response.isInitial()) return;
                 if(!response.isAllInstalled()) {
                     if(player.getPlayer().isOnline()) player.getPlayer().kickPlayer(String.format(
-                            plugin.getConfig().getString("addons.kickMessage", defaultKickMessage),
+                            plugin.getConfigManager().getAddonKickMessage(),
                             String.join(", ", response.getMissingAddons())
                     ));
                 }
@@ -198,12 +197,12 @@ public class PlayerListener implements Listener {
     }
 
     private void managePermissions(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("permissions.enabled")) return;
+        if(!plugin.getConfigManager().arePermissionsEnabled()) return;
         // TODO: Find error source
         List<Permission.StatedPermission> permissions = new ArrayList<>();
         ConfigurationSection section = plugin
-                .getConfig()
-                .getConfigurationSection("permissions.permissions");
+                .getConfigManager()
+                .getPermissions();
 
         if(section == null) return;
 
@@ -215,9 +214,9 @@ public class PlayerListener implements Listener {
     }
 
     private void setRPC(LabyModPlayer player) {
-        if(!plugin.getConfig().getBoolean("rpc.enabled")) return;
-        String text = plugin.getConfig().getString("rpc.text");
-        boolean showTime = plugin.getConfig().getBoolean("rpc.showJoinTime");
+        if(!plugin.getConfigManager().isRpcEnabled()) return;
+        String text = plugin.getConfigManager().getRpcText();
+        boolean showTime = plugin.getConfigManager().showRpcJoinTime();
 
         if(text == null) return;
         if(plugin.isUsingPapi()) {

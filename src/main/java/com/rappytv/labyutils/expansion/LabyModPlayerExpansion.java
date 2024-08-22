@@ -42,8 +42,8 @@ public class LabyModPlayerExpansion extends PlaceholderExpansion {
         if(player == null) {
             switch (identifier.toLowerCase()) {
                 case "banner": {
-                    if(!plugin.getConfig().getBoolean("banner.enabled")) return "";
-                    return plugin.getConfig().getString("banner.url", "");
+                    if(!plugin.getConfigManager().isBannerEnabled()) return "";
+                    return plugin.getConfigManager().getBannerUrl();
                 }
                 default: return null;
             }

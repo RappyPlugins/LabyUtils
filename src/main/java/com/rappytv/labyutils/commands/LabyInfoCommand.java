@@ -49,7 +49,7 @@ public class LabyInfoCommand implements CommandExecutor {
             return true;
         }
         response += "\n" + LabyUtilsPlugin.getPrefix() + "§bUsing LabyMod: §aYes";
-        if(plugin.getConfig().getBoolean("subtitles.enabled")
+        if(plugin.getConfigManager().areSubtitlesEnabled()
                 && sender.hasPermission("labyutils.info.subtitle")) {
             ServerAPITextComponent component = (ServerAPITextComponent) labyPlayer.subtitle().getText();
             String subtitle = component != null ? component.getText() : "--";
