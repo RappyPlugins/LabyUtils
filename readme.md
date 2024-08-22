@@ -14,7 +14,7 @@ A simple plugin to utilize LabyMod's server API without coding knowledge.
 - Country flags beside your name in the tablist
 - Subtitles below player names based on their permissions
 - Customizable interaction menu bullets
-- Enabled/disabled permissions which allow or limit core/addon functions of LabyMod
+- Sync LabyMod permissions which allow/limit core/addon features with server permissions
 - Partly customizable Discord rich presence (LabyMod does not allow fully customizable rpc)
 - A command to see LabyMod specific information of a player
   - The LabyMod subtitle
@@ -38,6 +38,7 @@ A simple plugin to utilize LabyMod's server API without coding knowledge.
 - `labyutils.info.economy` - See economy balances in `/labyutils`
 - `labyutils.info.version` - See LabyMod versions in `/labyutils`
 - `labyutils.info.region` - See player regions in `/labyutils`
+- `labyutils.permissions.*` - Gives the player all configured LabyMod permissions
 - `labyutils.reload` - Grants access to `/labyutils`
 
 ## Dependencies
