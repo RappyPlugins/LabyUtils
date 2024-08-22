@@ -46,6 +46,8 @@ public class PlayerListener implements Listener {
     public void onPlayerJoin(LabyModPlayerJoinEvent event) {
         LabyModPlayer labyPlayer = event.labyModPlayer();
 
+        logJoin(labyPlayer);
+        sendWelcomer(labyPlayer);
         setBanner(labyPlayer);
         setFlag(labyPlayer);
         setSubtitle(labyPlayer);
@@ -59,6 +61,27 @@ public class PlayerListener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         EconomyBalanceUpdateEvent.cashBalances.remove(event.getPlayer().getUniqueId());
         EconomyBalanceUpdateEvent.bankBalances.remove(event.getPlayer().getUniqueId());
+    }
+
+    private void logJoin(LabyModPlayer player) {
+        if(!plugin.getConfig().getBoolean("welcome.log")) return;
+        plugin.getLogger().info(String.format(
+                "%s just joined with LabyMod v%s!",
+                player.getPlayer().getName(),
+                player.getLabyModVersion()
+        ));
+    }
+
+    private void sendWelcomer(LabyModPlayer player) {
+        if(!plugin.getConfig().getBoolean("welcome.enabled")) return;
+        String text = plugin
+                .getConfig()
+                .getString("welcome.message")
+                .replace("<prefix>", LabyUtilsPlugin.getPrefix());
+        if(plugin.isUsingPapi()) {
+            text = PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
+        }
+        player.getPlayer().sendMessage(text);
     }
 
     private void setBanner(LabyModPlayer player) {
