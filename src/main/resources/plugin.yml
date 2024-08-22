@@ -27,6 +27,9 @@ permissions:
   labyutils.info.region:
     default: op
     description: Lets the player see a player's region with /labyinfo
+  labyutils.permissions.*:
+    default: op
+    description: Gives the player all configured LabyMod permissions
   labyutils.reload:
     default: op
     description: Lets the player reload the config with /labyutils
