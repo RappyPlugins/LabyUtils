@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.rappytv.labyutils.LabyUtilsPlugin;
 import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
+import io.sentry.Sentry;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.labymod.serverapi.api.model.component.ServerAPIComponent;
 import net.labymod.serverapi.core.model.display.TabListFlag;
@@ -28,7 +29,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 public class PlayerListener implements Listener {
 
@@ -254,11 +254,13 @@ public class PlayerListener implements Listener {
                 cachedFlags.put(player.getUniqueId(), TabListFlag.TabListFlagCountryCode.valueOf(body.get("country").getAsString()));
                 consumer.accept(cachedFlags.get(player.getUniqueId()));
             }).exceptionally(throwable -> {
+                Sentry.captureException(throwable);
                 plugin.getLogger().warning("Failed to get country code of " + host);
                 consumer.accept(null);
                 return null;
             });
         } catch (Exception e) {
+            Sentry.captureException(e);
             plugin.getLogger().warning("Failed to get country code of " + host);
             consumer.accept(null);
         }

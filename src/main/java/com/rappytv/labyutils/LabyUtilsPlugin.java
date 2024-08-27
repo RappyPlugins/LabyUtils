@@ -6,6 +6,7 @@ import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
 import com.rappytv.labyutils.expansion.LabyModPlayerExpansion;
 import com.rappytv.labyutils.listeners.EconomyBalanceUpdateListener;
 import com.rappytv.labyutils.listeners.PlayerListener;
+import io.sentry.Sentry;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -26,8 +27,12 @@ public final class LabyUtilsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
-        configManager = new ConfigManager(this);
         saveDefaultConfig();
+        configManager = new ConfigManager(this);
+        if(configManager.isSentryEnabled()) {
+            getLogger().info("Thanks for enabling Sentry! Loading...");
+            initializeSentry();
+        }
         try {
             LabyModProtocolService.initialize(this);
             getLogger().info("LabyMod protocol service initialized.");
@@ -57,6 +62,11 @@ public final class LabyUtilsPlugin extends JavaPlugin {
         Objects.requireNonNull(Bukkit.getPluginCommand("labyutils")).setExecutor(new ReloadCommand(this));
     }
 
+    @Override
+    public void onDisable() {
+        Sentry.close();
+    }
+
     public static String getPrefix() {
         return instance.getConfigManager().getPrefix();
     }
@@ -72,6 +82,15 @@ public final class LabyUtilsPlugin extends JavaPlugin {
 
     public ConfigManager getConfigManager() {
         return configManager;
+    }
+
+    private void initializeSentry() {
+        Sentry.init(options -> {
+            options.setDsn("https://bd16d626052842d7209032d5329fb525@sentry.rappytv.com/3");
+            options.setTracesSampleRate(1.0);
+            options.setRelease(getDescription().getVersion());
+            getLogger().info("Sentry loaded!");
+        });
     }
 
     private boolean loadVaultEconomy() {

@@ -8,7 +8,11 @@
 #                                                          #
 ############################################################
 
+# Customize the plugin prefix for all messages sent by the plugin
 prefix: '§8[§9LABY§8] '
+# Sends plugin error data to our servers so we can fix problems more efficiently.
+# This data includes the stacktrace, server ip, plugin version and java version.
+sentry: true
 
 welcome:
   # Enables a welcome message specifically for LabyMod players
