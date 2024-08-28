@@ -1,6 +1,6 @@
-package com.rappytv.labyutils.events;
+package com.rappytv.labyutils.bukkit.events;
 
-import com.rappytv.labyutils.LabyUtilsPlugin;
+import com.rappytv.labyutils.bukkit.LabyUtilsPlugin;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
 import net.milkbowl.vault.economy.EconomyResponse;

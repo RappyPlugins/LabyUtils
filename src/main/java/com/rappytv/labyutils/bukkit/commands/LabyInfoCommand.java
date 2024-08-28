@@ -1,7 +1,7 @@
-package com.rappytv.labyutils.commands;
+package com.rappytv.labyutils.bukkit.commands;
 
-import com.rappytv.labyutils.LabyUtilsPlugin;
-import com.rappytv.labyutils.listeners.PlayerListener;
+import com.rappytv.labyutils.bukkit.LabyUtilsPlugin;
+import com.rappytv.labyutils.bukkit.listeners.PlayerListener;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;

@@ -1,4 +1,4 @@
-package com.rappytv.labyutils;
+package com.rappytv.labyutils.bukkit;
 
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;

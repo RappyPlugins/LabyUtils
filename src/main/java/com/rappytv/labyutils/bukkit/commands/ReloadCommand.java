@@ -1,6 +1,6 @@
-package com.rappytv.labyutils.commands;
+package com.rappytv.labyutils.bukkit.commands;
 
-import com.rappytv.labyutils.LabyUtilsPlugin;
+import com.rappytv.labyutils.bukkit.LabyUtilsPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

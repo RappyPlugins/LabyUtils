@@ -1,9 +1,9 @@
-package com.rappytv.labyutils.listeners;
+package com.rappytv.labyutils.bukkit.listeners;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.rappytv.labyutils.LabyUtilsPlugin;
-import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
+import com.rappytv.labyutils.bukkit.LabyUtilsPlugin;
+import com.rappytv.labyutils.bukkit.events.EconomyBalanceUpdateEvent;
 import io.sentry.Sentry;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.labymod.serverapi.api.model.component.ServerAPIComponent;

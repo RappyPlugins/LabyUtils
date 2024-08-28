@@ -1,7 +1,7 @@
-package com.rappytv.labyutils.listeners;
+package com.rappytv.labyutils.bukkit.listeners;
 
-import com.rappytv.labyutils.LabyUtilsPlugin;
-import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
+import com.rappytv.labyutils.bukkit.LabyUtilsPlugin;
+import com.rappytv.labyutils.bukkit.events.EconomyBalanceUpdateEvent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

@@ -1,11 +1,11 @@
-package com.rappytv.labyutils;
+package com.rappytv.labyutils.bukkit;
 
-import com.rappytv.labyutils.commands.LabyInfoCommand;
-import com.rappytv.labyutils.commands.ReloadCommand;
-import com.rappytv.labyutils.events.EconomyBalanceUpdateEvent;
-import com.rappytv.labyutils.expansion.LabyModPlayerExpansion;
-import com.rappytv.labyutils.listeners.EconomyBalanceUpdateListener;
-import com.rappytv.labyutils.listeners.PlayerListener;
+import com.rappytv.labyutils.bukkit.commands.LabyInfoCommand;
+import com.rappytv.labyutils.bukkit.commands.ReloadCommand;
+import com.rappytv.labyutils.bukkit.events.EconomyBalanceUpdateEvent;
+import com.rappytv.labyutils.bukkit.expansion.LabyModPlayerExpansion;
+import com.rappytv.labyutils.bukkit.listeners.EconomyBalanceUpdateListener;
+import com.rappytv.labyutils.bukkit.listeners.PlayerListener;
 import io.sentry.Sentry;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
 import net.milkbowl.vault.economy.Economy;

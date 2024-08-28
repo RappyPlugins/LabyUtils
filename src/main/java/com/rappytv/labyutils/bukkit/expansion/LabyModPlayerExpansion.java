@@ -1,7 +1,7 @@
-package com.rappytv.labyutils.expansion;
+package com.rappytv.labyutils.bukkit.expansion;
 
-import com.rappytv.labyutils.LabyUtilsPlugin;
-import com.rappytv.labyutils.listeners.PlayerListener;
+import com.rappytv.labyutils.bukkit.LabyUtilsPlugin;
+import com.rappytv.labyutils.bukkit.listeners.PlayerListener;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
