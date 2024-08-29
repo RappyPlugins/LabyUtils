@@ -13,6 +13,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <labymod.serverApiVersion>1.0.2</labymod.serverApiVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -81,9 +82,20 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.12-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>net.labymod.serverapi</groupId>
             <artifactId>server-bukkit</artifactId>
-            <version>1.0.2</version>
+            <version>${labymod.serverApiVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.labymod.serverapi</groupId>
+            <artifactId>server-bungeecord</artifactId>
+            <version>${labymod.serverApiVersion}</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>

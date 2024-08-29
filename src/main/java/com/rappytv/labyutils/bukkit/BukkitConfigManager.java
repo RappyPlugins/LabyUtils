@@ -1,16 +1,15 @@
-package com.rappytv.labyutils;
+package com.rappytv.labyutils.bukkit;
 
+import com.rappytv.labyutils.common.IConfigManager;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
-public class ConfigManager {
+public class BukkitConfigManager implements IConfigManager<ConfigurationSection> {
 
-    private final static String defaultPrefix = "§8[§9LABY§8] ";
-    private final static String defaultKickMessage = "§c§lKICKED!\n\n§bReason: §7Missing required addons: %s";
-    private final LabyUtilsPlugin plugin;
+    private final LabyUtilsBukkit plugin;
     private Configuration config;
 
-    public ConfigManager(LabyUtilsPlugin plugin) {
+    public BukkitConfigManager(LabyUtilsBukkit plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfig();
     }

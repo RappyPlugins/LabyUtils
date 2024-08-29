@@ -1,6 +1,6 @@
-package com.rappytv.labyutils.events;
+package com.rappytv.labyutils.bukkit.events;
 
-import com.rappytv.labyutils.LabyUtilsPlugin;
+import com.rappytv.labyutils.bukkit.LabyUtilsBukkit;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -44,7 +44,7 @@ public class EconomyBalanceUpdateEvent extends Event {
         return type;
     }
 
-    public static void initialize(LabyUtilsPlugin plugin) {
+    public static void initialize(LabyUtilsBukkit plugin) {
         if(plugin.getEconomy() == null) return;
         long updateInterval = plugin.getConfigManager().getEconomyUpdateInterval() * 20L;
         Bukkit.getScheduler().scheduleSyncRepeatingTask(plugin, () -> {
