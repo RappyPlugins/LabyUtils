@@ -1,6 +1,6 @@
 name: LabyUtils
 version: '${project.version}'
-main: com.rappytv.labyutils.spigot.LabyUtilsBukkit
+main: com.rappytv.labyutils.bukkit.LabyUtilsBukkit
 api-version: '1.13'
 authors: [ RappyTV ]
 description: A simple plugin to utilize LabyMod's server API without coding knowledge.
