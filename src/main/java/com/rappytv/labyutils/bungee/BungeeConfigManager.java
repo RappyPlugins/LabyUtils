@@ -10,6 +10,7 @@ public class BungeeConfigManager implements IConfigManager<Configuration> {
 
     public BungeeConfigManager(LabyUtilsConfig config) {
         this.pluginConfig = config;
+        this.config = pluginConfig.get();
     }
 
     @Override
