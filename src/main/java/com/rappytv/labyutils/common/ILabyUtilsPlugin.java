@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import io.sentry.Sentry;
 import net.labymod.serverapi.core.model.display.TabListFlag;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.net.InetSocketAddress;
