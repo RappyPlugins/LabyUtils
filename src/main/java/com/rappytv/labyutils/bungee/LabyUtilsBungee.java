@@ -10,10 +10,12 @@ import net.md_5.bungee.api.plugin.Plugin;
 
 public final class LabyUtilsBungee extends Plugin implements ILabyUtilsPlugin {
 
+    private static LabyUtilsBungee instance;
     private BungeeConfigManager configManager;
 
     @Override
     public void onEnable() {
+        instance = this;
         configManager = new BungeeConfigManager(new LabyUtilsConfig(this));
         try {
             LabyModProtocolService.initialize(this);
@@ -28,6 +30,10 @@ public final class LabyUtilsBungee extends Plugin implements ILabyUtilsPlugin {
         getProxy().getPluginManager().registerCommand(this, new LabyInfoCommand(this));
         getProxy().getPluginManager().registerCommand(this, new ReloadCommand(this));
         getProxy().getPluginManager().registerListener(this, new PlayerListener(this));
+    }
+
+    public static String getPrefix() {
+        return instance.getConfigManager().getPrefix();
     }
 
     public BungeeConfigManager getConfigManager() {
