@@ -1,6 +1,6 @@
 package com.rappytv.labyutils.bukkit.listeners;
 
-import com.rappytv.labyutils.bukkit.LabyUtilsPlugin;
+import com.rappytv.labyutils.bukkit.LabyUtilsBukkit;
 import com.rappytv.labyutils.bukkit.events.EconomyBalanceUpdateEvent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
 import org.bukkit.event.EventHandler;
@@ -8,9 +8,9 @@ import org.bukkit.event.Listener;
 
 public class EconomyBalanceUpdateListener implements Listener {
 
-    private final LabyUtilsPlugin plugin;
+    private final LabyUtilsBukkit plugin;
 
-    public EconomyBalanceUpdateListener(LabyUtilsPlugin plugin) {
+    public EconomyBalanceUpdateListener(LabyUtilsBukkit plugin) {
         this.plugin = plugin;
     }
 

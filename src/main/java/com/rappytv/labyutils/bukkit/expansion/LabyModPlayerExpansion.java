@@ -1,7 +1,7 @@
 package com.rappytv.labyutils.bukkit.expansion;
 
-import com.rappytv.labyutils.bukkit.LabyUtilsPlugin;
-import com.rappytv.labyutils.bukkit.listeners.PlayerListener;
+import com.rappytv.labyutils.bukkit.LabyUtilsBukkit;
+import com.rappytv.labyutils.common.ILabyUtilsPlugin;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.bukkit.LabyModPlayer;
@@ -12,9 +12,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class LabyModPlayerExpansion extends PlaceholderExpansion {
 
-    private final LabyUtilsPlugin plugin;
+    private final LabyUtilsBukkit plugin;
 
-    public LabyModPlayerExpansion(LabyUtilsPlugin plugin) {
+    public LabyModPlayerExpansion(LabyUtilsBukkit plugin) {
         this.plugin = plugin;
     }
 
@@ -54,8 +54,8 @@ public class LabyModPlayerExpansion extends PlaceholderExpansion {
 
             switch (identifier.toLowerCase()) {
                 case "playerflag": {
-                    return PlayerListener.cachedFlags.containsKey(player.getUniqueId())
-                            ? PlayerListener.cachedFlags.get(player.getUniqueId()).name()
+                    return ILabyUtilsPlugin.cachedFlags.containsKey(player.getUniqueId())
+                            ? ILabyUtilsPlugin.cachedFlags.get(player.getUniqueId()).name()
                             : "--";
                 }
                 case "subtitle": {

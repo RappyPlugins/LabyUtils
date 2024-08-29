@@ -6,6 +6,7 @@ import com.rappytv.labyutils.bukkit.events.EconomyBalanceUpdateEvent;
 import com.rappytv.labyutils.bukkit.expansion.LabyModPlayerExpansion;
 import com.rappytv.labyutils.bukkit.listeners.EconomyBalanceUpdateListener;
 import com.rappytv.labyutils.bukkit.listeners.PlayerListener;
+import com.rappytv.labyutils.common.ILabyUtilsPlugin;
 import io.sentry.Sentry;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
 import net.milkbowl.vault.economy.Economy;
@@ -17,18 +18,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-public final class LabyUtilsPlugin extends JavaPlugin {
+public final class LabyUtilsBukkit extends JavaPlugin implements ILabyUtilsPlugin {
 
-    private static LabyUtilsPlugin instance;
+    private static LabyUtilsBukkit instance;
     private Economy economy = null;
     private boolean usingPapi = false;
-    private ConfigManager configManager;
+    private BukkitConfigManager configManager;
 
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        configManager = new ConfigManager(this);
+        configManager = new BukkitConfigManager(this);
         if(configManager.isSentryEnabled()) {
             getLogger().info("Thanks for enabling Sentry! Loading...");
             initializeSentry();
@@ -80,7 +81,7 @@ public final class LabyUtilsPlugin extends JavaPlugin {
         return usingPapi;
     }
 
-    public ConfigManager getConfigManager() {
+    public BukkitConfigManager getConfigManager() {
         return configManager;
     }
 
