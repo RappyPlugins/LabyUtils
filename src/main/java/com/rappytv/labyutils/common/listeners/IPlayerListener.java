@@ -1,6 +1,5 @@
 package com.rappytv.labyutils.common.listeners;
 
-import net.labymod.serverapi.server.bukkit.LabyModPlayer;
 import net.labymod.serverapi.server.common.model.player.AbstractServerLabyModPlayer;
 
 public interface IPlayerListener<E, L extends AbstractServerLabyModPlayer<?, ?>> {
