@@ -9,10 +9,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class LabyInfoCommand implements CommandExecutor {
+import java.util.Collections;
+import java.util.List;
+
+public class LabyInfoCommand implements CommandExecutor, TabExecutor {
 
     private final LabyUtilsBukkit plugin;
 
@@ -67,5 +71,11 @@ public class LabyInfoCommand implements CommandExecutor {
         }
         sender.sendMessage(response);
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String s, String[] args) {
+        if(args.length == 1) return null;
+        return Collections.emptyList();
     }
 }

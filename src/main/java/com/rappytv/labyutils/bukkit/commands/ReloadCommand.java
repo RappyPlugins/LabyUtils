@@ -4,8 +4,12 @@ import com.rappytv.labyutils.bukkit.LabyUtilsBukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabExecutor;
 
-public class ReloadCommand implements CommandExecutor {
+import java.util.Collections;
+import java.util.List;
+
+public class ReloadCommand implements CommandExecutor, TabExecutor {
 
     private final LabyUtilsBukkit plugin;
 
@@ -22,5 +26,10 @@ public class ReloadCommand implements CommandExecutor {
         plugin.getConfigManager().reloadConfig();
         sender.sendMessage(LabyUtilsBukkit.getPrefix() + "§7Addon config successfully reloaded!");
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] args) {
+        return Collections.emptyList();
     }
 }

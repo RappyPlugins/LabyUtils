@@ -4,8 +4,11 @@ import com.rappytv.labyutils.bungee.LabyUtilsBungee;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-public class ReloadCommand extends Command {
+import java.util.Collections;
+
+public class ReloadCommand extends Command implements TabExecutor {
 
     private final LabyUtilsBungee plugin;
 
@@ -26,5 +29,10 @@ public class ReloadCommand extends Command {
         sender.sendMessage(
                 TextComponent.fromLegacyText(LabyUtilsBungee.getPrefix() + "§7Addon config successfully reloaded!"
         ));
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        return Collections.emptyList();
     }
 }

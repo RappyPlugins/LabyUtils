@@ -9,8 +9,13 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 
-public class LabyInfoCommand extends Command {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class LabyInfoCommand extends Command implements TabExecutor {
 
     private final LabyUtilsBungee plugin;
 
@@ -71,5 +76,17 @@ public class LabyInfoCommand extends Command {
             response += "\n" + LabyUtilsBungee.getPrefix() + "§bRegion: §7" + flag;
         }
         sender.sendMessage(TextComponent.fromLegacyText(response));
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        if(args.length == 1) {
+            List<String> players = new ArrayList<>();
+            for(ProxiedPlayer player : plugin.getProxy().getPlayers()) {
+                if(player.getName().toLowerCase().startsWith(args[0].toLowerCase())) players.add(player.getName());
+            }
+            return players;
+        }
+        return Collections.emptyList();
     }
 }
