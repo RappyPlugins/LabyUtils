@@ -1,0 +1,5 @@
+name: LabyUtils
+version: '${project.version}'
+main: com.rappytv.labyutils.bungee.LabyUtilsBungee
+author: RappyTV
+description: A simple plugin to utilize LabyMod's server API without coding knowledge.
