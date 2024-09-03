@@ -4,7 +4,6 @@ import com.rappytv.labyutils.bungee.commands.LabyInfoCommand;
 import com.rappytv.labyutils.bungee.commands.ReloadCommand;
 import com.rappytv.labyutils.bungee.listener.PlayerListener;
 import com.rappytv.labyutils.common.ILabyUtilsPlugin;
-import io.sentry.Sentry;
 import net.labymod.serverapi.server.bungeecord.LabyModProtocolService;
 import net.md_5.bungee.api.plugin.Plugin;
 
@@ -25,7 +24,7 @@ public final class LabyUtilsBungee extends Plugin implements ILabyUtilsPlugin {
         }
         if(configManager.isSentryEnabled()) {
             getLogger().info("Thanks for enabling Sentry! Loading...");
-            initializeSentry();
+            initializeSentry(getDescription().getVersion());
         }
         getProxy().getPluginManager().registerCommand(this, new LabyInfoCommand(this));
         getProxy().getPluginManager().registerCommand(this, new ReloadCommand(this));
@@ -38,14 +37,5 @@ public final class LabyUtilsBungee extends Plugin implements ILabyUtilsPlugin {
 
     public BungeeConfigManager getConfigManager() {
         return configManager;
-    }
-
-    private void initializeSentry() {
-        Sentry.init(options -> {
-            options.setDsn("https://bd16d626052842d7209032d5329fb525@sentry.rappytv.com/3");
-            options.setTracesSampleRate(1.0);
-            options.setRelease(getDescription().getVersion());
-            getLogger().info("Sentry loaded!");
-        });
     }
 }

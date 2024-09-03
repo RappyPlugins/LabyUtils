@@ -32,7 +32,7 @@ public final class LabyUtilsBukkit extends JavaPlugin implements ILabyUtilsPlugi
         configManager = new BukkitConfigManager(this);
         if(configManager.isSentryEnabled()) {
             getLogger().info("Thanks for enabling Sentry! Loading...");
-            initializeSentry();
+            initializeSentry(getDescription().getVersion());
         }
         try {
             LabyModProtocolService.initialize(this);
@@ -83,15 +83,6 @@ public final class LabyUtilsBukkit extends JavaPlugin implements ILabyUtilsPlugi
 
     public BukkitConfigManager getConfigManager() {
         return configManager;
-    }
-
-    private void initializeSentry() {
-        Sentry.init(options -> {
-            options.setDsn("https://bd16d626052842d7209032d5329fb525@sentry.rappytv.com/3");
-            options.setTracesSampleRate(1.0);
-            options.setRelease(getDescription().getVersion());
-            getLogger().info("Sentry loaded!");
-        });
     }
 
     private boolean loadVaultEconomy() {
