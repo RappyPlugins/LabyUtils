@@ -28,6 +28,15 @@ public interface ILabyUtilsPlugin {
     HttpClient client = HttpClient.newHttpClient();
     Logger getLogger();
 
+    default void initializeSentry(String version) {
+        Sentry.init(options -> {
+            options.setDsn("https://d8bbca67730b0a4d93cf0e7d179ef12f@sentry.rappytv.com/4");
+            options.setTracesSampleRate(1.0);
+            options.setRelease(version);
+            getLogger().info("Sentry loaded!");
+        });
+    }
+
     default String formatNumber(double number) {
         DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
         DecimalFormatSymbols symbols = formatter.getDecimalFormatSymbols();
