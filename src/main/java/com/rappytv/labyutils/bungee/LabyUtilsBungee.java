@@ -4,7 +4,6 @@ import com.rappytv.labyutils.bungee.commands.LabyInfoCommand;
 import com.rappytv.labyutils.bungee.commands.ReloadCommand;
 import com.rappytv.labyutils.bungee.listener.PlayerListener;
 import com.rappytv.labyutils.common.ILabyUtilsPlugin;
-import io.sentry.Sentry;
 import net.labymod.serverapi.server.bungeecord.LabyModProtocolService;
 import net.md_5.bungee.api.plugin.Plugin;
 
