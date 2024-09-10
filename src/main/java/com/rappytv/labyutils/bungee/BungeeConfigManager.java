@@ -48,15 +48,15 @@ public class BungeeConfigManager implements IConfigManager<Configuration> {
     }
 
     public int getEconomyUpdateInterval() {
-        return config.getInt("economy.updateInterval");
+        return -1;
     }
 
     public boolean showCashBalance() {
-        return config.getBoolean("economy.cash");
+        return false;
     }
 
     public boolean showBankBalance() {
-        return config.getBoolean("economy.bank");
+        return false;
     }
 
     public boolean areFlagsEnabled() {
