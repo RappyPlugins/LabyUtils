@@ -8,21 +8,25 @@ import com.rappytv.labyutils.velocity.LabyUtilsVelocity;
 import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandSource;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.serializer.ComponentSerializer;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.velocity.LabyModPlayer;
 import net.labymod.serverapi.server.velocity.LabyModProtocolService;
 
 public class LabyInfoCommand {
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public static BrigadierCommand createBrigadierCommand(final LabyUtilsVelocity plugin) {
+        Component prefix = LabyUtilsVelocity.getPrefix();
         LiteralCommandNode<CommandSource> infoNode = BrigadierCommand.literalArgumentBuilder("labyinfo")
                 .requires(source -> source.hasPermission("labyutils.info"))
                 .executes(context -> {
                     plugin.getConfigManager().reloadConfig();
-                    context.getSource().sendMessage(Component.text(
-                            LabyUtilsVelocity.getPrefix() + "§cPlease enter a player name!"
-                    ));
+                    context.getSource().sendMessage(prefix.append(Component.text(
+                            "Please enter a player name!",
+                            NamedTextColor.RED
+                    )));
 
                     return Command.SINGLE_SUCCESS;
                 })
@@ -34,37 +38,73 @@ public class LabyInfoCommand {
                         .executes(context -> {
                             String name = context.getArgument("player", String.class);
                             plugin.getServer().getPlayer(name).ifPresentOrElse(player -> {
-                                String response = LabyUtilsVelocity.getPrefix() + "§6LabyInfo of " + player.getUsername();
+                                Component response = Component.empty()
+                                        .append(prefix)
+                                        .append(Component.text(
+                                                "LabyInfo of " + player.getUsername(), NamedTextColor.GOLD
+                                        ))
+                                        .appendNewline()
+                                        .append(prefix)
+                                        .append(Component.text("UUID: ", NamedTextColor.AQUA))
+                                        .append(Component.text(player.getUniqueId().toString(), NamedTextColor.GRAY))
+                                        .appendNewline()
+                                        .append(prefix)
+                                        .append(Component.text("Using LabyMod: ", NamedTextColor.AQUA));
                                 LabyModPlayer labyPlayer = LabyModProtocolService.get().getPlayer(player.getUniqueId());
-                                response += "\n" + LabyUtilsVelocity.getPrefix() + "§bUUID: §7" + player.getUniqueId();
                                 if(labyPlayer == null) {
-                                    response += "\n" + LabyUtilsVelocity.getPrefix() + "§bUsing LabyMod: §cNo";
-                                    context.getSource().sendMessage(Component.text(response));
+                                    context.getSource().sendMessage(response.append(
+                                            Component.text("No", NamedTextColor.RED)
+                                    ));
                                     return;
                                 }
-                                response += "\n" + LabyUtilsVelocity.getPrefix() + "§bUsing LabyMod: §aYes";
+                                response.append(Component.text("Yes", NamedTextColor.GREEN));
                                 if(plugin.getConfigManager().areSubtitlesEnabled()
                                         && context.getSource().hasPermission("labyutils.info.subtitle")) {
                                     ServerAPITextComponent component = (ServerAPITextComponent) labyPlayer.subtitle().getText();
                                     String subtitle = component != null ? component.getText() : "--";
-                                    response += "\n" + LabyUtilsVelocity.getPrefix() + "§bServer subtitle: §7" + subtitle;
+                                    response
+                                            .appendNewline()
+                                            .append(prefix)
+                                            .append(Component.text("Server subtitle: ", NamedTextColor.AQUA))
+                                            .append(LegacyComponentSerializer.legacyAmpersand().deserialize(
+                                                    "§7" + subtitle
+                                            ));
                                 }
                                 if(context.getSource().hasPermission("labyutils.info.economy")) {
-                                    response += "\n" + LabyUtilsVelocity.getPrefix() +
-                                            "§bEconomy cash: §7" + plugin.formatNumber(labyPlayer.cashEconomy().getBalance()) +
-                                            "\n" + LabyUtilsVelocity.getPrefix() +
-                                            "§bEconomy bank: §7" + plugin.formatNumber(labyPlayer.bankEconomy().getBalance());
+                                    response
+                                            .appendNewline()
+                                            .append(prefix)
+                                            .append(Component.text("Economy cash: ", NamedTextColor.AQUA))
+                                            .append(Component.text(
+                                                    plugin.formatNumber(labyPlayer.cashEconomy().getBalance()),
+                                                    NamedTextColor.GRAY
+                                            ))
+                                            .appendNewline()
+                                            .append(prefix)
+                                            .append(Component.text("Economy bank: ", NamedTextColor.AQUA))
+                                            .append(Component.text(
+                                                    plugin.formatNumber(labyPlayer.bankEconomy().getBalance()),
+                                                    NamedTextColor.GRAY
+                                            ));
                                 }
                                 if(context.getSource().hasPermission("labyutils.info.version")) {
-                                    response += "\n" + LabyUtilsVelocity.getPrefix() + "§bLabyMod version: §7v" + labyPlayer.getLabyModVersion();
+                                    response
+                                            .appendNewline()
+                                            .append(prefix)
+                                            .append(Component.text("LabyMod version: ", NamedTextColor.AQUA))
+                                            .append(Component.text(labyPlayer.getLabyModVersion()));
                                 }
                                 if(context.getSource().hasPermission("labyutils.info.region")) {
                                     String flag = ILabyUtilsPlugin.cachedFlags.containsKey(player.getUniqueId())
                                             ? ILabyUtilsPlugin.cachedFlags.get(player.getUniqueId()).name()
                                             : "--";
-                                    response += "\n" + LabyUtilsVelocity.getPrefix() + "§bRegion: §7" + flag;
+                                    response
+                                            .appendNewline()
+                                            .append(prefix)
+                                            .append(Component.text("Region: ", NamedTextColor.AQUA))
+                                            .append(Component.text(flag, NamedTextColor.GRAY));
                                 }
-                                context.getSource().sendMessage(Component.text(response));
+                                context.getSource().sendMessage(response);
                             }, () -> context.getSource().sendMessage(Component.text(
                                     LabyUtilsVelocity.getPrefix() + "§cThis player was not found!"
                             )));
