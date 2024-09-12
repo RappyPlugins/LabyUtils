@@ -15,7 +15,7 @@ import net.labymod.serverapi.server.velocity.LabyModProtocolService;
 public class LabyInfoCommand {
 
     public static BrigadierCommand createBrigadierCommand(final LabyUtilsVelocity plugin) {
-        LiteralCommandNode<CommandSource> infoNode = BrigadierCommand.literalArgumentBuilder("labyutils")
+        LiteralCommandNode<CommandSource> infoNode = BrigadierCommand.literalArgumentBuilder("labyinfo")
                 .requires(source -> source.hasPermission("labyutils.info"))
                 .executes(context -> {
                     plugin.getConfigManager().reloadConfig();
