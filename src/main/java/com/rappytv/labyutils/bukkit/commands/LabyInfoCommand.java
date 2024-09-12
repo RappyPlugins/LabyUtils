@@ -39,7 +39,7 @@ public class LabyInfoCommand implements CommandExecutor, TabExecutor {
             sender.sendMessage(LabyUtilsBukkit.getPrefix() + "§cThis player was not found!");
             return false;
         }
-        String response = LabyUtilsBukkit.getPrefix() + "§6LabyInfo of " + sender.getName();
+        String response = LabyUtilsBukkit.getPrefix() + "§6LabyInfo of " + player.getName();
         LabyModPlayer labyPlayer = LabyModProtocolService.get().getPlayer(player.getUniqueId());
         response += "\n" + LabyUtilsBukkit.getPrefix() + "§bUUID: §7" + player.getUniqueId();
         if(labyPlayer == null) {

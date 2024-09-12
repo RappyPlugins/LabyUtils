@@ -45,7 +45,7 @@ public class LabyInfoCommand extends Command implements TabExecutor {
             ));
             return;
         }
-        String response = LabyUtilsBungee.getPrefix() + "§6LabyInfo of " + sender.getName();
+        String response = LabyUtilsBungee.getPrefix() + "§6LabyInfo of " + player.getName();
         LabyModPlayer labyPlayer = LabyModProtocolService.get().getPlayer(player.getUniqueId());
         response += "\n" + LabyUtilsBungee.getPrefix() + "§bUUID: §7" + player.getUniqueId();
         if(labyPlayer == null) {
