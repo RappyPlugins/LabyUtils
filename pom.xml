@@ -15,7 +15,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <labymod.serverApiVersion>1.0.3</labymod.serverApiVersion>
+        <labymod.serverApiVersion>1.0.4</labymod.serverApiVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -107,6 +107,11 @@
         <dependency>
             <groupId>net.labymod.serverapi</groupId>
             <artifactId>server-bungeecord</artifactId>
+            <version>${labymod.serverApiVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.labymod.serverapi</groupId>
+            <artifactId>server-velocity</artifactId>
             <version>${labymod.serverApiVersion}</version>
         </dependency>
         <dependency>
