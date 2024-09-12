@@ -8,7 +8,9 @@ import com.rappytv.labyutils.bukkit.listeners.EconomyBalanceUpdateListener;
 import com.rappytv.labyutils.bukkit.listeners.PlayerListener;
 import com.rappytv.labyutils.common.ILabyUtilsPlugin;
 import io.sentry.Sentry;
+import net.labymod.serverapi.api.logger.ProtocolPlatformLogger;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
+import net.labymod.serverapi.server.common.JavaProtocolLogger;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.PluginManager;
@@ -24,12 +26,14 @@ public final class LabyUtilsBukkit extends JavaPlugin implements ILabyUtilsPlugi
     private Economy economy = null;
     private boolean usingPapi = false;
     private BukkitConfigManager configManager;
+    private ProtocolPlatformLogger logger;
 
     @Override
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
         configManager = new BukkitConfigManager(this);
+        logger = new JavaProtocolLogger(getLogger());
         if(configManager.isSentryEnabled()) {
             getLogger().info("Thanks for enabling Sentry! Loading...");
             initializeSentry(getDescription().getVersion());
@@ -96,5 +100,10 @@ public final class LabyUtilsBukkit extends JavaPlugin implements ILabyUtilsPlugi
     private boolean loadPlaceholderAPI() {
         usingPapi = getServer().getPluginManager().getPlugin("PlaceholderAPI") != null;
         return usingPapi;
+    }
+
+    @Override
+    public ProtocolPlatformLogger logger() {
+        return logger;
     }
 }
