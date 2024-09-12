@@ -7,6 +7,8 @@
     <groupId>com.rappytv.labyutils</groupId>
     <artifactId>LabyUtils</artifactId>
     <version>1.0.1</version>
+    <description>A simple plugin to utilize LabyMod's server API without coding knowledge.</description>
+    <url>https://github.com/RappyPlugins/LabyUtils#readme</url>
     <packaging>jar</packaging>
 
     <name>LabyUtils</name>
@@ -111,6 +113,7 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
