@@ -1,0 +1,12 @@
+{
+  "id": "labyutils",
+  "name": "${project.artifactId}",
+  "version": "${project.version}",
+  "description": "${project.description}",
+  "url": "${project.url}",
+  "authors": [
+    "RappyTV"
+  ],
+  "dependencies": [],
+  "main": "com.rappytv.labyutils.velocity.LabyUtilsVelocity"
+}
