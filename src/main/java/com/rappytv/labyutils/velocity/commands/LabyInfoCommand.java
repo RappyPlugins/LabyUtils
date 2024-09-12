@@ -8,6 +8,7 @@ import com.rappytv.labyutils.velocity.LabyUtilsVelocity;
 import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandSource;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.ComponentSerializer;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.velocity.LabyModPlayer;
 import net.labymod.serverapi.server.velocity.LabyModProtocolService;
@@ -20,7 +21,7 @@ public class LabyInfoCommand {
                 .executes(context -> {
                     plugin.getConfigManager().reloadConfig();
                     context.getSource().sendMessage(Component.text(
-                            LabyUtilsVelocity.getPrefix() + "§7Addon config successfully reloaded!"
+                            LabyUtilsVelocity.getPrefix() + "§cPlease enter a player name!"
                     ));
 
                     return Command.SINGLE_SUCCESS;
