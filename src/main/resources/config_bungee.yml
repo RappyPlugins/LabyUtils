@@ -1,6 +1,6 @@
 ############################################################
 #                                                          #
-#                    LabyUtils (Bukkit)                    #
+#                  LabyUtils (BungeeCord)                  #
 #                                                          #
 #    Simple plugin to manage LabyMod users your server!    #
 #                                                          #
@@ -20,11 +20,10 @@ welcome:
   # Sends a log message into the console when a LabyMod player joins
   log: true
 
-  # This string supports placeholders.
   # To use the prefix just append <prefix>
   message: |-
     <prefix>§7Thanks for using LabyMod!
-    <prefix>§7§oLabyUtils on Spigot
+    <prefix>§7§oLabyUtils on BungeeCord
 
 banner:
   # Set this to true if you want to enable the banner above the tablist
@@ -32,24 +31,15 @@ banner:
   # The aspect ratio of the image must be 5:1 and the recommended resolution is 1280x256 pixels.
   url: 'https://example.com/banner.png'
 
-# Requires Vault
-economy:
-  # Interval in seconds
-  updateInterval: 5
-  cash: false
-  bank: false
-
 flags:
   # Set this to true if you want to enable country flags being displayed next to player names in the tablist
   enabled: false
 
 subtitles:
   # Set this to true if you want to display "subnametags" for players with specific permissions
-  # PlaceholderAPI is supported
   enabled: false
   subtitles:
     owner:
-      # Supports placeholder API
       text: '§4Server owner'
       size: 0.8
       permission: group.owner
@@ -121,6 +111,5 @@ rpc:
   # Set to true if you want to enable Discord Rich presence
   enabled: false
 
-  # PlaceholderAPI is supported
-  text: 'Playing %gamemode%'
+  text: 'Playing on example.com'
   showJoinTime: true

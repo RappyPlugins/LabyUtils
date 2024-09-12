@@ -32,7 +32,7 @@ public class LabyUtilsConfig {
             }
             if(!configFile.exists()) {
                 FileOutputStream outputStream = new FileOutputStream(configFile);
-                InputStream in = plugin.getResourceAsStream("config.yml");
+                InputStream in = plugin.getResourceAsStream("config_bungee.yml");
                 in.transferTo(outputStream);
                 in.close();
             }
