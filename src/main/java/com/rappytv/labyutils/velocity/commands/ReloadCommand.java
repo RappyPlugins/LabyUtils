@@ -6,6 +6,7 @@ import com.rappytv.labyutils.velocity.LabyUtilsVelocity;
 import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandSource;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 
 public class ReloadCommand {
 
@@ -14,9 +15,10 @@ public class ReloadCommand {
                 .requires(source -> source.hasPermission("labyutils.reload"))
                 .executes(context -> {
                     plugin.getConfigManager().reloadConfig();
-                    context.getSource().sendMessage(Component.text(
-                            LabyUtilsVelocity.getPrefix() + "§7Addon config successfully reloaded!"
-                    ));
+                    context.getSource().sendMessage(LabyUtilsVelocity.getPrefix().append(Component.text(
+                            "Addon config successfully reloaded!",
+                            NamedTextColor.GRAY
+                    )));
 
                     return Command.SINGLE_SUCCESS;
                 })
