@@ -11,6 +11,8 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.PluginContainer;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.labymod.serverapi.api.logger.ProtocolPlatformLogger;
 import net.labymod.serverapi.server.velocity.LabyModProtocolService;
 import net.labymod.serverapi.server.velocity.Slf4jPlatformLogger;
@@ -69,8 +71,8 @@ public final class LabyUtilsVelocity implements ILabyUtilsPlugin {
         return logger;
     }
 
-    public static String getPrefix() {
-        return instance.getConfigManager().getPrefix();
+    public static TextComponent getPrefix() {
+        return LegacyComponentSerializer.legacyAmpersand().deserialize(instance.getConfigManager().getPrefix());
     }
 
     public VelocityConfigManager getConfigManager() {
