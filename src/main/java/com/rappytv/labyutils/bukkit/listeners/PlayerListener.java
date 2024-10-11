@@ -150,6 +150,42 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
         if(!entries.isEmpty()) player.sendInteractionMenuEntries(entries);
     }
 
+    public void managePermissions(LabyModPlayer player) {
+        if(!plugin.getConfigManager().arePermissionsEnabled()) return;
+        // TODO: Find error source
+        List<Permission.StatedPermission> permissions = new ArrayList<>();
+        ConfigurationSection section = plugin
+                .getConfigManager()
+                .getPermissions();
+
+        if(section == null) return;
+
+        for(String key : section.getKeys(false)) {
+            boolean hasPermission = player.getPlayer().hasPermission("labyutils.permissions.*")
+                    || player.getPlayer().hasPermission("labyutils.permissions." + section.getString(key));
+            permissions.add(hasPermission ? Permission.of(key).allow() : Permission.of(key).deny());
+        }
+
+        player.sendPermissions(permissions);
+    }
+
+    public void setRPC(LabyModPlayer player) {
+        if(!plugin.getConfigManager().isRpcEnabled()) return;
+        String text = plugin.getConfigManager().getRpcText();
+        boolean showTime = plugin.getConfigManager().showRpcJoinTime();
+
+        if(text == null) return;
+        if(plugin.isUsingPapi()) {
+            text = PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
+        }
+
+        DiscordRPC rpc = showTime
+                ? DiscordRPC.createWithStart(text, System.currentTimeMillis())
+                : DiscordRPC.create(text);
+
+        player.sendDiscordRPC(rpc);
+    }
+
     public void manageAddons(LabyModPlayer player) {
         if(!plugin.getConfigManager().isAddonManagementEnabled()) return;
         List<RecommendedAddon> recommendedAddons = new ArrayList<>();
@@ -192,41 +228,5 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
         if(!disabledAddons.isEmpty()) {
             player.disableAddons(disabledAddons);
         }
-    }
-
-    public void managePermissions(LabyModPlayer player) {
-        if(!plugin.getConfigManager().arePermissionsEnabled()) return;
-        // TODO: Find error source
-        List<Permission.StatedPermission> permissions = new ArrayList<>();
-        ConfigurationSection section = plugin
-                .getConfigManager()
-                .getPermissions();
-
-        if(section == null) return;
-
-        for(String key : section.getKeys(false)) {
-            boolean hasPermission = player.getPlayer().hasPermission("labyutils.permissions.*")
-                    || player.getPlayer().hasPermission("labyutils.permissions." + section.getString(key));
-            permissions.add(hasPermission ? Permission.of(key).allow() : Permission.of(key).deny());
-        }
-
-        player.sendPermissions(permissions);
-    }
-
-    public void setRPC(LabyModPlayer player) {
-        if(!plugin.getConfigManager().isRpcEnabled()) return;
-        String text = plugin.getConfigManager().getRpcText();
-        boolean showTime = plugin.getConfigManager().showRpcJoinTime();
-
-        if(text == null) return;
-        if(plugin.isUsingPapi()) {
-            text = PlaceholderAPI.setPlaceholders(player.getPlayer(), text);
-        }
-
-        DiscordRPC rpc = showTime
-                ? DiscordRPC.createWithStart(text, System.currentTimeMillis())
-                : DiscordRPC.create(text);
-
-        player.sendDiscordRPC(rpc);
     }
 }
