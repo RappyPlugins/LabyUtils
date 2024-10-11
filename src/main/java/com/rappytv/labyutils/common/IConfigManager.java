@@ -7,7 +7,6 @@ public interface IConfigManager<T> {
 
     void reloadConfig();
     String getPrefix();
-    boolean isSentryEnabled();
     boolean isWelcomeLogEnabled();
     boolean isWelcomeMessageEnabled();
     String getWelcomeMessage();

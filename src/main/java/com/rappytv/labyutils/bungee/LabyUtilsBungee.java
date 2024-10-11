@@ -22,10 +22,6 @@ public final class LabyUtilsBungee extends Plugin implements ILabyUtilsPlugin {
         } catch (IllegalStateException e) {
             getLogger().info("LabyMod protocol service already initialized.");
         }
-        if(configManager.isSentryEnabled()) {
-            getLogger().info("Thanks for enabling Sentry! Loading...");
-            initializeSentry(getDescription().getVersion());
-        }
         getProxy().getPluginManager().registerCommand(this, new LabyInfoCommand(this));
         getProxy().getPluginManager().registerCommand(this, new ReloadCommand(this));
         getProxy().getPluginManager().registerListener(this, new PlayerListener(this));

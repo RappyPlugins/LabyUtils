@@ -2,7 +2,6 @@ package com.rappytv.labyutils.common;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import io.sentry.Sentry;
 import net.labymod.serverapi.core.model.display.TabListFlag;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,15 +26,6 @@ public interface ILabyUtilsPlugin {
     Gson gson = new Gson();
     HttpClient client = HttpClient.newHttpClient();
     Logger getLogger();
-
-    default void initializeSentry(String version) {
-        Sentry.init(options -> {
-            options.setDsn("https://d8bbca67730b0a4d93cf0e7d179ef12f@sentry.rappytv.com/4");
-            options.setTracesSampleRate(1.0);
-            options.setRelease(version);
-            getLogger().info("Sentry loaded!");
-        });
-    }
 
     default String formatNumber(double number) {
         DecimalFormat formatter = (DecimalFormat) NumberFormat.getInstance(Locale.US);
@@ -69,13 +59,11 @@ public interface ILabyUtilsPlugin {
                 cachedFlags.put(uuid, TabListFlag.TabListFlagCountryCode.valueOf(body.get("country").getAsString()));
                 consumer.accept(cachedFlags.get(uuid));
             }).exceptionally(throwable -> {
-                Sentry.captureException(throwable);
                 getLogger().warning("Failed to get country code of " + host);
                 consumer.accept(null);
                 return null;
             });
         } catch (Exception e) {
-            Sentry.captureException(e);
             getLogger().warning("Failed to get country code of " + host);
             consumer.accept(null);
         }
