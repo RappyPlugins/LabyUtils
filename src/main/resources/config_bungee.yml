@@ -11,6 +11,14 @@
 # Customize the plugin prefix for all messages sent by the plugin
 prefix: '§8[§9LABY§8] '
 
+disallow:
+  # Enable this to prevent players from joining with LabyMod
+  enabled: false
+  kickMessage: |-
+    §c§lKICKED!
+    
+    §bReason: §7You are not allowed to join this server using §9LabyMod§7!
+
 welcome:
   # Enables a welcome message specifically for LabyMod players
   enabled: false
