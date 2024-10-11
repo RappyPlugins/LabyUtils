@@ -217,10 +217,17 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
         if(!recommendedAddons.isEmpty()) {
             player.sendAddonRecommendations(recommendedAddons, response -> {
                 if(response.isInitial()) return;
-                if(!response.isAllInstalled()) {
-                    if(player.getPlayer().isOnline()) player.getPlayer().kickPlayer(String.format(
+                List<String> missingRequiredAddons = new ArrayList<>();
+                for(String missingAddon : response.getMissingAddons()) {
+                    for(RecommendedAddon addon : recommendedAddons) {
+                        if(!addon.getNamespace().equals(missingAddon) || !addon.isRequired()) continue;
+                        missingRequiredAddons.add(missingAddon);
+                    }
+                }
+                if(!missingRequiredAddons.isEmpty() && player.getPlayer().isOnline()) {
+                    player.getPlayer().kickPlayer(String.format(
                             plugin.getConfigManager().getAddonKickMessage(),
-                            String.join(", ", response.getMissingAddons())
+                            String.join(", ", missingRequiredAddons)
                     ));
                 }
             });
