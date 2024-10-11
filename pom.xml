@@ -6,7 +6,7 @@
 
     <groupId>com.rappytv.labyutils</groupId>
     <artifactId>LabyUtils</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <name>LabyUtils</name>
@@ -101,6 +101,7 @@
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>24.1.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
