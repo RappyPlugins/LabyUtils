@@ -23,10 +23,6 @@ public class BukkitConfigManager implements IConfigManager<ConfigurationSection>
         return config.getString("prefix", defaultPrefix);
     }
 
-    public boolean isSentryEnabled() {
-        return config.getBoolean("sentry", true);
-    }
-
     public boolean isWelcomeLogEnabled() {
         return config.getBoolean("welcome.log");
     }

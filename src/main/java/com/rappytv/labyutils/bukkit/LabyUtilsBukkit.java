@@ -7,7 +7,6 @@ import com.rappytv.labyutils.bukkit.expansion.LabyModPlayerExpansion;
 import com.rappytv.labyutils.bukkit.listeners.EconomyBalanceUpdateListener;
 import com.rappytv.labyutils.bukkit.listeners.PlayerListener;
 import com.rappytv.labyutils.common.ILabyUtilsPlugin;
-import io.sentry.Sentry;
 import net.labymod.serverapi.server.bukkit.LabyModProtocolService;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
@@ -30,10 +29,6 @@ public final class LabyUtilsBukkit extends JavaPlugin implements ILabyUtilsPlugi
         instance = this;
         saveDefaultConfig();
         configManager = new BukkitConfigManager(this);
-        if(configManager.isSentryEnabled()) {
-            getLogger().info("Thanks for enabling Sentry! Loading...");
-            initializeSentry(getDescription().getVersion());
-        }
         try {
             LabyModProtocolService.initialize(this);
             getLogger().info("LabyMod protocol service initialized.");
@@ -61,11 +56,6 @@ public final class LabyUtilsBukkit extends JavaPlugin implements ILabyUtilsPlugi
         pluginManager.registerEvents(new PlayerListener(this), this);
         Objects.requireNonNull(Bukkit.getPluginCommand("labyinfo")).setExecutor(new LabyInfoCommand(this));
         Objects.requireNonNull(Bukkit.getPluginCommand("labyutils")).setExecutor(new ReloadCommand(this));
-    }
-
-    @Override
-    public void onDisable() {
-        Sentry.close();
     }
 
     public static String getPrefix() {
