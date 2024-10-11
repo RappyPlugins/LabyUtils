@@ -23,11 +23,11 @@ public class BungeeConfigManager implements IConfigManager<Configuration> {
     }
 
     public boolean isLabyModDisallowed() {
-        return config.getBoolean("labymod.disallow.enabled");
+        return config.getBoolean("disallow.enabled");
     }
 
     public String getDisallowedKickMessage() {
-        return config.getString("labymod.force.kickMessage", defaultDisallowedKickMessage);
+        return config.getString("disallow.kickMessage", defaultDisallowedKickMessage);
     }
 
     public boolean isWelcomeLogEnabled() {
