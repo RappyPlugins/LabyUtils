@@ -6,6 +6,7 @@ public interface IPlayerListener<E, L extends AbstractServerLabyModPlayer<?, ?>>
 
     void onPlayerJoin(E event);
 
+    boolean disallowLabyMod(L player);
     void logJoin(L player);
     void sendWelcomer(L player);
     void setBanner(L player);

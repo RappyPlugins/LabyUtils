@@ -29,6 +29,8 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
     public void onPlayerJoin(LabyModPlayerJoinEvent event) {
         LabyModPlayer labyPlayer = event.labyModPlayer();
 
+        if(disallowLabyMod(labyPlayer)) return;
+
         logJoin(labyPlayer);
         sendWelcomer(labyPlayer);
         setBanner(labyPlayer);
@@ -38,6 +40,21 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
         manageAddons(labyPlayer);
         managePermissions(labyPlayer);
         setRPC(labyPlayer);
+    }
+
+    @Override
+    public boolean disallowLabyMod(LabyModPlayer player) {
+        if(plugin.getConfigManager().isLabyModDisallowed()) {
+            player.getPlayer().disconnect(
+                    TextComponent.fromLegacyText(
+                            plugin
+                                    .getConfigManager()
+                                    .getDisallowedKickMessage()
+                    )
+            );
+            return true;
+        }
+        return false;
     }
 
     @Override
