@@ -95,7 +95,7 @@ addons:
     # - require - Recommends addon to player AND kicks player if they didn't download it
     # - disable - Disables addon completely
     #
-    # To add a bypass for an addon give the 'labyutils.bypass.<namespace>'
+    # To add a bypass for an addon give the 'labyutils.bypass.addon.<namespace>'
     # permission to a player or a group and the action will be prevented.
     someaddon: recommend
     someotheraddon: disable

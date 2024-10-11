@@ -53,7 +53,7 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
 
     @Override
     public boolean disallowLabyMod(LabyModPlayer player) {
-        if(plugin.getConfigManager().isLabyModDisallowed()) {
+        if(plugin.getConfigManager().isLabyModDisallowed() && !player.getPlayer().hasPermission("labyutils.bypass.labymod")) {
             player.getPlayer().kickPlayer(plugin.getConfigManager().getDisallowedKickMessage());
             return true;
         }
@@ -198,8 +198,8 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
         if(section == null) return;
 
         for(String key : section.getKeys(false)) {
-            boolean canBypass = player.getPlayer().hasPermission("labyutils.bypass.*")
-                    || player.getPlayer().hasPermission("labyutils.bypass." + key);
+            boolean canBypass = player.getPlayer().hasPermission("labyutils.bypass.addon.*")
+                    || player.getPlayer().hasPermission("labyutils.bypass.addon." + key);
             if(canBypass) continue;
             switch (section.getString(key, "none").toLowerCase()) {
                 case "recommend":
