@@ -4,6 +4,7 @@ import net.labymod.serverapi.server.common.model.player.AbstractServerLabyModPla
 
 public interface IPlayerListener<E, L extends AbstractServerLabyModPlayer<?, ?>> {
 
+    @SuppressWarnings("unused")
     void onPlayerJoin(E event);
 
     boolean disallowLabyMod(L player);
