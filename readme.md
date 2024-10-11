@@ -9,6 +9,7 @@ A simple plugin to utilize LabyMod's server API without coding knowledge.
 ## General info
 
 ### Features
+- Disallow LabyMod completely by kicking players as soon as they join with LabyMod
 - Custom banner above the tablist
 - An economy display (cash & bank) using [Vault](https://www.spigotmc.org/resources/vault.34315/)
 - Country flags beside your name in the tablist
@@ -31,8 +32,8 @@ A simple plugin to utilize LabyMod's server API without coding knowledge.
 - `/labyutils` - Reloads the config.
 
 ### Permissions
-- `labyutils.bypass.*` - Ignores all recommended, required, or disallowed addons
-- `labyutils.bypass.<namespace>` - Ignores a specific recommended, required, or disallowed addon
+- `labyutils.bypass.addon.*` - Ignores all recommended, required, or disallowed addons
+- `labyutils.bypass.addon.<namespace>` - Ignores a specific recommended, required, or disallowed addon
 - `labyutils.info` - Grants base access to `/labyinfo`
 - `labyutils.info.subtitle` - See player subtitles in `/labyutils`
 - `labyutils.info.economy` - See economy balances in `/labyutils`

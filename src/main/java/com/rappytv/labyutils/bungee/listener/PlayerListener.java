@@ -29,15 +29,32 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
     public void onPlayerJoin(LabyModPlayerJoinEvent event) {
         LabyModPlayer labyPlayer = event.labyModPlayer();
 
+        if(disallowLabyMod(labyPlayer)) return;
+
         logJoin(labyPlayer);
         sendWelcomer(labyPlayer);
         setBanner(labyPlayer);
         setFlag(labyPlayer);
         setSubtitle(labyPlayer);
         setInteractionBullets(labyPlayer);
-        manageAddons(labyPlayer);
         managePermissions(labyPlayer);
         setRPC(labyPlayer);
+        manageAddons(labyPlayer);
+    }
+
+    @Override
+    public boolean disallowLabyMod(LabyModPlayer player) {
+        if(plugin.getConfigManager().isLabyModDisallowed() && !player.getPlayer().hasPermission("labyutils.bypass.labymod")) {
+            player.getPlayer().disconnect(
+                    TextComponent.fromLegacyText(
+                            plugin
+                                    .getConfigManager()
+                                    .getDisallowedKickMessage()
+                    )
+            );
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -131,53 +148,6 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
     }
 
     @Override
-    public void manageAddons(LabyModPlayer player) {
-        if(!plugin.getConfigManager().isAddonManagementEnabled()) return;
-        List<RecommendedAddon> recommendedAddons = new ArrayList<>();
-        List<String> disabledAddons = new ArrayList<>();
-
-        Configuration section = plugin
-                .getConfigManager()
-                .getAddonManagement();
-
-        if(section == null) return;
-
-        for(String key : section.getKeys()) {
-            boolean canBypass = player.getPlayer().hasPermission("labyutils.bypass.*")
-                    || player.getPlayer().hasPermission("labyutils.bypass." + key);
-            if(canBypass) continue;
-            switch (section.getString(key, "none").toLowerCase()) {
-                case "recommend":
-                    recommendedAddons.add(RecommendedAddon.of(key, false));
-                    break;
-                case "require":
-                    recommendedAddons.add(RecommendedAddon.of(key, true));
-                    break;
-                case "disable":
-                    disabledAddons.add(key);
-                    break;
-            }
-        }
-
-        if(!recommendedAddons.isEmpty()) {
-            player.sendAddonRecommendations(recommendedAddons, response -> {
-                if(response.isInitial()) return;
-                if(!response.isAllInstalled()) {
-                    if(player.getPlayer().isConnected()) player.getPlayer().disconnect(
-                            TextComponent.fromLegacyText(String.format(
-                                    plugin.getConfigManager().getAddonKickMessage(),
-                                    String.join(", ", response.getMissingAddons())
-                            ))
-                    );
-                }
-            });
-        }
-        if(!disabledAddons.isEmpty()) {
-            player.disableAddons(disabledAddons);
-        }
-    }
-
-    @Override
     public void managePermissions(LabyModPlayer player) {
         if(!plugin.getConfigManager().arePermissionsEnabled()) return;
         // TODO: Find error source
@@ -210,5 +180,52 @@ public class PlayerListener implements Listener, IPlayerListener<LabyModPlayerJo
                 : DiscordRPC.create(text);
 
         player.sendDiscordRPC(rpc);
+    }
+
+    @Override
+    public void manageAddons(LabyModPlayer player) {
+        if(!plugin.getConfigManager().isAddonManagementEnabled()) return;
+        List<RecommendedAddon> recommendedAddons = new ArrayList<>();
+        List<String> disabledAddons = new ArrayList<>();
+
+        Configuration section = plugin
+                .getConfigManager()
+                .getAddonManagement();
+
+        if(section == null) return;
+
+        for(String key : section.getKeys()) {
+            boolean canBypass = player.getPlayer().hasPermission("labyutils.bypass.addon.*")
+                    || player.getPlayer().hasPermission("labyutils.bypass.addon." + key);
+            if(canBypass) continue;
+            switch (section.getString(key, "none").toLowerCase()) {
+                case "recommend":
+                    recommendedAddons.add(RecommendedAddon.of(key, false));
+                    break;
+                case "require":
+                    recommendedAddons.add(RecommendedAddon.of(key, true));
+                    break;
+                case "disable":
+                    disabledAddons.add(key);
+                    break;
+            }
+        }
+
+        if(!recommendedAddons.isEmpty()) {
+            player.sendAddonRecommendations(recommendedAddons, response -> {
+                if(response.isInitial()) return;
+                if(!response.isAllInstalled()) {
+                    if(player.getPlayer().isConnected()) player.getPlayer().disconnect(
+                            TextComponent.fromLegacyText(String.format(
+                                    plugin.getConfigManager().getAddonKickMessage(),
+                                    String.join(", ", response.getMissingAddons())
+                            ))
+                    );
+                }
+            });
+        }
+        if(!disabledAddons.isEmpty()) {
+            player.disableAddons(disabledAddons);
+        }
     }
 }

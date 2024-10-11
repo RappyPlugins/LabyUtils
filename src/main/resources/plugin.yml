@@ -9,9 +9,12 @@ softdepend:
   - PlaceholderAPI
 
 permissions:
-  labyutils.bypass.*:
+  labyutils.bypass.addon.*:
     default: op
     description: Ignores any recommended, required, or disallowed addons
+  labyutils.bypass.labymod:
+    default: op
+    description: Lets the player join with LabyMod when it's disallowed
   labyutils.info:
     default: op
     description: Lets the player use /labyinfo

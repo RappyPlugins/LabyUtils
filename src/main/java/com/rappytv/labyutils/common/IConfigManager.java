@@ -3,10 +3,13 @@ package com.rappytv.labyutils.common;
 public interface IConfigManager<T> {
 
     String defaultPrefix = "§8[§9LABY§8] ";
-    String defaultKickMessage = "§c§lKICKED!\n\n§bReason: §7Missing required addons: %s";
+    String defaultAddonKickMessage = "§c§lKICKED!\n\n§bReason: §7Missing required addons: %s";
+    String defaultDisallowedKickMessage = "§c§lKICKED!\n\n§bReason: §7You are not allowed to join this server using §9LabyMod§7!";
 
     void reloadConfig();
     String getPrefix();
+    boolean isLabyModDisallowed();
+    String getDisallowedKickMessage();
     boolean isWelcomeLogEnabled();
     boolean isWelcomeMessageEnabled();
     String getWelcomeMessage();

@@ -23,6 +23,14 @@ public class BukkitConfigManager implements IConfigManager<ConfigurationSection>
         return config.getString("prefix", defaultPrefix);
     }
 
+    public boolean isLabyModDisallowed() {
+        return config.getBoolean("disallow.enabled");
+    }
+
+    public String getDisallowedKickMessage() {
+        return config.getString("disallow.kickMessage", defaultDisallowedKickMessage);
+    }
+
     public boolean isWelcomeLogEnabled() {
         return config.getBoolean("welcome.log");
     }
@@ -84,7 +92,7 @@ public class BukkitConfigManager implements IConfigManager<ConfigurationSection>
     }
 
     public String getAddonKickMessage() {
-        return config.getString("addons.kickMessage", defaultKickMessage);
+        return config.getString("addons.kickMessage", defaultAddonKickMessage);
     }
 
     public boolean arePermissionsEnabled() {

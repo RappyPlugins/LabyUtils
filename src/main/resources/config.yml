@@ -11,6 +11,15 @@
 # Customize the plugin prefix for all messages sent by the plugin
 prefix: '§8[§9LABY§8] '
 
+disallow:
+  # Enable this to prevent players from joining with LabyMod.
+  # Players can bypass being kicked by having the 'labyutils.bypass.labymod' permission
+  enabled: false
+  kickMessage: |-
+    §c§lKICKED!
+    
+    §bReason: §7You are not allowed to join this server using §9LabyMod§7!
+
 welcome:
   # Enables a welcome message specifically for LabyMod players
   enabled: false
@@ -97,7 +106,7 @@ addons:
     # - require - Recommends addon to player AND kicks player if they didn't download it
     # - disable - Disables addon completely
     #
-    # To add a bypass for an addon give the 'labyutils.bypass.<namespace>'
+    # To add a bypass for an addon give the 'labyutils.bypass.addon.<namespace>'
     # permission to a player or a group and the action will be prevented.
     someaddon: recommend
     someotheraddon: disable
