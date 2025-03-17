@@ -1,126 +1,139 @@
 package com.rappytv.labyutils.velocity;
 
 import com.rappytv.labyutils.common.IConfigManager;
+import dev.dejvokep.boostedyaml.YamlDocument;
+import dev.dejvokep.boostedyaml.block.implementation.Section;
 
-public class VelocityConfigManager implements IConfigManager {
+public class VelocityConfigManager implements IConfigManager<Section> {
 
-    @Override
-    public void reloadConfig() {
+    private final LabyUtilsConfig pluginConfig;
+    private YamlDocument config;
 
+    public VelocityConfigManager(LabyUtilsConfig pluginConfig) {
+        this.pluginConfig = pluginConfig;
+        this.config = pluginConfig.get();
     }
 
     @Override
+    public void reloadConfig() {
+        pluginConfig.reload();
+        config = pluginConfig.get();
+    }
+
     public String getPrefix() {
-        return "";
+        return config.getString("prefix", defaultPrefix);
     }
 
     @Override
     public boolean isSentryEnabled() {
-        return true;
+        return false;
+    }
+
+    public boolean isLabyModDisallowed() {
+        return config.getBoolean("disallow.enabled");
     }
 
     @Override
     public boolean isWelcomeLogEnabled() {
-        return true;
+        return config.getBoolean("welcome.log");
     }
 
     @Override
     public boolean isWelcomeMessageEnabled() {
-        return true;
+        return config.getBoolean("welcome.enabled");
     }
 
     @Override
     public String getWelcomeMessage() {
-        return "";
+        return config.getString("welcome.message");
     }
 
     @Override
     public boolean isBannerEnabled() {
-        return true;
+        return config.getBoolean("banner.enabled");
     }
 
     @Override
     public String getBannerUrl() {
-        return "";
+        return config.getString("banner.url", "");
     }
 
     @Override
     public int getEconomyUpdateInterval() {
-        return 0;
+        return -1;
     }
 
     @Override
     public boolean showCashBalance() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean showBankBalance() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean areFlagsEnabled() {
-        return true;
+        return config.getBoolean("flags.enabled");
     }
 
     @Override
     public boolean areSubtitlesEnabled() {
-        return true;
+        return config.getBoolean("subtitles.enabled");
     }
 
     @Override
-    public Object getSubtitles() {
-        return null;
+    public Section getSubtitles() {
+        return config.getSection("subtitles.subtitles");
     }
 
     @Override
     public boolean areInteractionsEnabled() {
-        return true;
+        return config.getBoolean("interactions.enabled");
     }
 
     @Override
-    public Object getInteractionBullets() {
-        return null;
+    public Section getInteractionBullets() {
+        return config.getSection("interactions.bullets");
     }
 
     @Override
     public boolean isAddonManagementEnabled() {
-        return true;
+        return config.getBoolean("addons.enabled");
     }
 
     @Override
-    public Object getAddonManagement() {
-        return null;
+    public Section getAddonManagement() {
+        return config.getSection("addons.addons");
     }
 
     @Override
     public String getAddonKickMessage() {
-        return "";
+        return config.getString("addons.kickMessage", defaultKickMessage);
     }
 
     @Override
     public boolean arePermissionsEnabled() {
-        return true;
+        return config.getBoolean("permissions.enabled");
     }
 
     @Override
-    public Object getPermissions() {
-        return null;
+    public YamlDocument getPermissions() {
+        return config.getSection("permissions.permissions").getRoot();
     }
 
     @Override
     public boolean isRpcEnabled() {
-        return true;
+        return config.getBoolean("rpc.enabled");
     }
 
     @Override
     public String getRpcText() {
-        return "";
+        return config.getString("rpc.text");
     }
 
-    @Override
     public boolean showRpcJoinTime() {
-        return true;
+        return config.getBoolean("rpc.showJoinTime");
     }
 }

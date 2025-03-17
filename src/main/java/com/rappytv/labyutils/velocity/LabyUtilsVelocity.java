@@ -1,85 +1,83 @@
 package com.rappytv.labyutils.velocity;
 
+import com.google.inject.Inject;
 import com.rappytv.labyutils.common.ILabyUtilsPlugin;
 import com.rappytv.labyutils.velocity.commands.LabyInfoCommand;
 import com.rappytv.labyutils.velocity.commands.ReloadCommand;
 import com.rappytv.labyutils.velocity.listener.PlayerListener;
-import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandManager;
+import com.velocitypowered.api.command.CommandMeta;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
-import com.velocitypowered.api.plugin.PluginContainer;
+import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import net.kyori.adventure.text.TextComponent;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.labymod.serverapi.api.logger.ProtocolPlatformLogger;
 import net.labymod.serverapi.server.velocity.LabyModProtocolService;
 import net.labymod.serverapi.server.velocity.Slf4jPlatformLogger;
 import org.slf4j.Logger;
 
-import javax.inject.Inject;
 import java.nio.file.Path;
-import java.util.Optional;
 
-public final class LabyUtilsVelocity implements ILabyUtilsPlugin {
+@Plugin(
+        id = "labyutils",
+        name = "LabyUtils",
+        version = "1.0.3",
+        description = "A simple plugin to utilize LabyMod's server API without coding knowledge.",
+        authors = {"RappyTV", "EinsJustin"}
+)
+public class LabyUtilsVelocity implements ILabyUtilsPlugin {
 
     private static LabyUtilsVelocity instance;
-    private VelocityConfigManager configManager;
-    private final ProxyServer server;
-    private final ProtocolPlatformLogger logger;
+    private final VelocityConfigManager configManager;
+
     private final Logger serverLogger;
-    private final Path dataDirectory;
+    private final ProtocolPlatformLogger logger;
+    private final ProxyServer proxy;
 
     @Inject
-    public LabyUtilsVelocity(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
-        this.server = server;
+    public LabyUtilsVelocity(Logger logger, ProxyServer proxy, @DataDirectory Path dataDirectory) {
         this.serverLogger = logger;
         this.logger = new Slf4jPlatformLogger(logger);
-        this.dataDirectory = dataDirectory;
+        this.proxy = proxy;
+        instance = this;
+        configManager = new VelocityConfigManager(new LabyUtilsConfig(this, dataDirectory));
     }
 
     @Subscribe
     public void onProxyInitialization(ProxyInitializeEvent event) {
-        instance = this;
-        configManager = new VelocityConfigManager(/*new VelocityConfig(this)*/);
         try {
-            LabyModProtocolService.initialize(this, server, serverLogger);
+            LabyModProtocolService.initialize(this, proxy, serverLogger);
             logger.info("LabyMod protocol service initialized.");
-        } catch (IllegalStateException e) {
+        } catch (IllegalArgumentException e) {
             logger.info("LabyMod protocol service already initialized.");
+            throw new IllegalStateException(e);
         }
-        if(configManager.isSentryEnabled()) {
-            String version = "?";
-            Optional<PluginContainer> plugin = server.getPluginManager().getPlugin("labyutils");
-            if(plugin.isPresent() && plugin.get().getDescription().getVersion().isPresent()) {
-                version = plugin.get().getDescription().getVersion().get();
-            }
-            logger.info("Thanks for enabling Sentry! Loading...");
-            initializeSentry(version);
-        }
-        CommandManager manager = server.getCommandManager();
-        BrigadierCommand infoCommand = LabyInfoCommand.createBrigadierCommand(this);
-        BrigadierCommand reloadCommand = ReloadCommand.createBrigadierCommand(this);
-        manager.register(manager.metaBuilder(infoCommand).build(), infoCommand);
-        manager.register(manager.metaBuilder(reloadCommand).build(), reloadCommand);
-        server.getEventManager().register(this, new PlayerListener(this));
+        proxy.getEventManager().register(this, new PlayerListener(this));
+
+        CommandManager commandManager = proxy.getCommandManager();
+
+        CommandMeta labyInfoMeta = commandManager.metaBuilder("labyinfo").plugin(this).build();
+        CommandMeta reloadMeta = commandManager.metaBuilder("labyutils").plugin(this).build();
+
+        commandManager.register(labyInfoMeta, new LabyInfoCommand(this));
+        commandManager.register(reloadMeta, new ReloadCommand(this));
     }
 
-    @Override
-    public ProtocolPlatformLogger logger() {
-        return logger;
+    public static String getPrefix() {
+        return instance.getConfigManager().getPrefix();
     }
 
-    public static TextComponent getPrefix() {
-        return LegacyComponentSerializer.legacyAmpersand().deserialize(instance.getConfigManager().getPrefix());
+    public ProxyServer getProxy() {
+        return proxy;
     }
 
     public VelocityConfigManager getConfigManager() {
         return configManager;
     }
 
-    public ProxyServer getServer() {
-        return server;
+    @Override
+    public ProtocolPlatformLogger logger() {
+        return null;
     }
 }

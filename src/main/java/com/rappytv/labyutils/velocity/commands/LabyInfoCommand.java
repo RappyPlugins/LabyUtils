@@ -1,119 +1,87 @@
 package com.rappytv.labyutils.velocity.commands;
 
-import com.mojang.brigadier.Command;
-import com.mojang.brigadier.arguments.StringArgumentType;
-import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.rappytv.labyutils.common.ILabyUtilsPlugin;
 import com.rappytv.labyutils.velocity.LabyUtilsVelocity;
-import com.velocitypowered.api.command.BrigadierCommand;
 import com.velocitypowered.api.command.CommandSource;
+import com.velocitypowered.api.command.SimpleCommand;
+import com.velocitypowered.api.proxy.Player;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.labymod.serverapi.api.model.component.ServerAPITextComponent;
 import net.labymod.serverapi.server.velocity.LabyModPlayer;
 import net.labymod.serverapi.server.velocity.LabyModProtocolService;
 
-public class LabyInfoCommand {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    public static BrigadierCommand createBrigadierCommand(final LabyUtilsVelocity plugin) {
-        Component prefix = LabyUtilsVelocity.getPrefix();
-        LiteralCommandNode<CommandSource> infoNode = BrigadierCommand.literalArgumentBuilder("labyinfo")
-                .requires(source -> source.hasPermission("labyutils.info"))
-                .executes(context -> {
-                    plugin.getConfigManager().reloadConfig();
-                    context.getSource().sendMessage(prefix.append(Component.text(
-                            "Please enter a player name!",
-                            NamedTextColor.RED
-                    )));
+public class LabyInfoCommand implements SimpleCommand {
 
-                    return Command.SINGLE_SUCCESS;
-                })
-                .then(BrigadierCommand.requiredArgumentBuilder("player", StringArgumentType.word())
-                        .suggests((ctx, builder) -> {
-                            plugin.getServer().getAllPlayers().forEach(player -> builder.suggest(player.getUsername()));
-                            return builder.buildFuture();
-                        })
-                        .executes(context -> {
-                            String name = context.getArgument("player", String.class);
-                            plugin.getServer().getPlayer(name).ifPresentOrElse(player -> {
-                                Component response = Component.empty()
-                                        .append(prefix)
-                                        .append(Component.text(
-                                                "LabyInfo of " + player.getUsername(), NamedTextColor.GOLD
-                                        ))
-                                        .appendNewline()
-                                        .append(prefix)
-                                        .append(Component.text("UUID: ", NamedTextColor.AQUA))
-                                        .append(Component.text(player.getUniqueId().toString(), NamedTextColor.GRAY))
-                                        .appendNewline()
-                                        .append(prefix)
-                                        .append(Component.text("Using LabyMod: ", NamedTextColor.AQUA));
-                                LabyModPlayer labyPlayer = LabyModProtocolService.get().getPlayer(player.getUniqueId());
-                                if(labyPlayer == null) {
-                                    context.getSource().sendMessage(response.append(
-                                            Component.text("No", NamedTextColor.RED)
-                                    ));
-                                    return;
-                                }
-                                response.append(Component.text("Yes", NamedTextColor.GREEN));
-                                if(plugin.getConfigManager().areSubtitlesEnabled()
-                                        && context.getSource().hasPermission("labyutils.info.subtitle")) {
-                                    ServerAPITextComponent component = (ServerAPITextComponent) labyPlayer.subtitle().getText();
-                                    String subtitle = component != null ? component.getText() : "--";
-                                    response
-                                            .appendNewline()
-                                            .append(prefix)
-                                            .append(Component.text("Server subtitle: ", NamedTextColor.AQUA))
-                                            .append(LegacyComponentSerializer.legacyAmpersand().deserialize(
-                                                    "§7" + subtitle
-                                            ));
-                                }
-                                if(context.getSource().hasPermission("labyutils.info.economy")) {
-                                    response
-                                            .appendNewline()
-                                            .append(prefix)
-                                            .append(Component.text("Economy cash: ", NamedTextColor.AQUA))
-                                            .append(Component.text(
-                                                    plugin.formatNumber(labyPlayer.cashEconomy().getBalance()),
-                                                    NamedTextColor.GRAY
-                                            ))
-                                            .appendNewline()
-                                            .append(prefix)
-                                            .append(Component.text("Economy bank: ", NamedTextColor.AQUA))
-                                            .append(Component.text(
-                                                    plugin.formatNumber(labyPlayer.bankEconomy().getBalance()),
-                                                    NamedTextColor.GRAY
-                                            ));
-                                }
-                                if(context.getSource().hasPermission("labyutils.info.version")) {
-                                    response
-                                            .appendNewline()
-                                            .append(prefix)
-                                            .append(Component.text("LabyMod version: ", NamedTextColor.AQUA))
-                                            .append(Component.text(labyPlayer.getLabyModVersion()));
-                                }
-                                if(context.getSource().hasPermission("labyutils.info.region")) {
-                                    String flag = ILabyUtilsPlugin.cachedFlags.containsKey(player.getUniqueId())
-                                            ? ILabyUtilsPlugin.cachedFlags.get(player.getUniqueId()).name()
-                                            : "--";
-                                    response
-                                            .appendNewline()
-                                            .append(prefix)
-                                            .append(Component.text("Region: ", NamedTextColor.AQUA))
-                                            .append(Component.text(flag, NamedTextColor.GRAY));
-                                }
-                                context.getSource().sendMessage(response);
-                            }, () -> context.getSource().sendMessage(Component.text(
-                                    LabyUtilsVelocity.getPrefix() + "§cThis player was not found!"
-                            )));
+    private final LabyUtilsVelocity plugin;
 
-                            return Command.SINGLE_SUCCESS;
-                        })
-                )
-                .build();
+    public LabyInfoCommand(LabyUtilsVelocity plugin) {
+        this.plugin = plugin;
+    }
 
-        return new BrigadierCommand(infoNode);
+    @Override
+    public void execute(final Invocation invocation) {
+        CommandSource sender = invocation.source();
+        String[] args = invocation.arguments();
+
+        if (!sender.hasPermission("labyutils.info")) {
+            sender.sendMessage(Component.text(LabyUtilsVelocity.getPrefix() + "§cYou are not allowed to use this command!"));
+            return;
+        }
+        if (args.length < 1) {
+            sender.sendMessage(Component.text(LabyUtilsVelocity.getPrefix() + "§cPlease enter a player name!"));
+            return;
+        }
+        Player player = (Player) sender;
+        if (player == null) {
+            sender.sendMessage(Component.text(LabyUtilsVelocity.getPrefix() + "§cThis player was not found!"));
+            return;
+        }
+        String response = LabyUtilsVelocity.getPrefix() + "§6LabyInfo of " + player.getUsername();
+        LabyModPlayer labyPlayer = LabyModProtocolService.get().getPlayer(player.getUniqueId());
+        response += "\n" + LabyUtilsVelocity.getPrefix() + "§bUUID: §7" + player.getUniqueId();
+        if (labyPlayer == null) {
+            response += "\n" + LabyUtilsVelocity.getPrefix() + "§bUsing LabyMod: §cNo";
+            sender.sendMessage(Component.text(response));
+            return;
+        }
+        response += "\n" + LabyUtilsVelocity.getPrefix() + "§bUsing LabyMod: §aYes";
+        if (plugin.getConfigManager().areSubtitlesEnabled()
+                && sender.hasPermission("labyutils.info.subtitle")) {
+            ServerAPITextComponent component = (ServerAPITextComponent) labyPlayer.subtitle().getText();
+            String subtitle = component != null ? component.getText() : "--";
+            response += "\n" + LabyUtilsVelocity.getPrefix() + "§bServer subtitle: §7" + subtitle;
+        }
+        if (sender.hasPermission("labyutils.info.economy")) {
+            response += "\n" + LabyUtilsVelocity.getPrefix() +
+                    "§bEconomy cash: §7" + plugin.formatNumber(labyPlayer.cashEconomy().getBalance()) +
+                    "\n" + LabyUtilsVelocity.getPrefix() +
+                    "§bEconomy bank: §7" + plugin.formatNumber(labyPlayer.bankEconomy().getBalance());
+        }
+        if (sender.hasPermission("labyutils.info.version")) {
+            response += "\n" + LabyUtilsVelocity.getPrefix() + "§bLabyMod version: §7v" + labyPlayer.getLabyModVersion();
+        }
+        if (sender.hasPermission("labyutils.info.region")) {
+            String flag = ILabyUtilsPlugin.cachedFlags.containsKey(player.getUniqueId())
+                    ? ILabyUtilsPlugin.cachedFlags.get(player.getUniqueId()).name()
+                    : "--";
+            response += "\n" + LabyUtilsVelocity.getPrefix() + "§bRegion: §7" + flag;
+        }
+        sender.sendMessage(Component.text(response));
+    }
+
+    @Override
+    public CompletableFuture<List<String>> suggestAsync(final Invocation invocation) {
+        List<String> players = new ArrayList<>();
+        String[] args = invocation.arguments();
+        if (args.length == 0) {
+            for (Player player : plugin.getProxy().getAllPlayers()) {
+                players.add(player.getUsername());
+            }
+        }
+        return CompletableFuture.completedFuture(players);
     }
 }
